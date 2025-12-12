@@ -1,2 +1,55 @@
 @import "tailwindcss";
 @plugin "daisyui";
+@plugin "daisyui/theme" {
+    
+  name: "growaiTheme";
+  default: true; /* set as default */
+  prefersdark: false; /* set as default dark mode (prefers-color-scheme:dark) */
+  color-scheme: light; /* color of browser-provided UI */
+
+  /* Convert HEX to OKLCH (using perceptual uniformity for better contrast & accessibility) */
+  --color-base-100: oklch(99.5% 0.005 142); /* #FFFFFF -> near-white base */
+  --color-base-200: oklch(98.8% 0.008 142); /* #F8FAFC -> light off-white */
+  --color-base-300: oklch(95.5% 0.012 142); /* #E2E8F0 -> subtle gray (added for sections) */
+  --color-base-content: oklch(25% 0.04 240); /* #1E293B -> dark text for readability */
+
+  --color-primary: oklch(88% 0.22 160); /* #24a75b -> Energetic Green */
+  --color-primary-content: oklch(25% 0.05 160); /* White text on primary */
+
+  --color-secondary: oklch(25% 0.04 240); /* #1E293B -> Dark slate */
+  --color-secondary-content: oklch(99% 0.002 240); /* White text on secondary */
+
+  --color-accent: oklch(98.5% 0.015 142); /* #F0FDF4 -> Very light mint */
+  --color-accent-content: oklch(58% 0.22 142); /* Green text on accent */
+
+  --color-neutral: oklch(15% 0.03 240); /* #0F172A -> Very dark blue-gray */
+  --color-neutral-content: oklch(99% 0.002 240); /* White text on neutral */
+
+  --color-info: oklch(65% 0.15 220); /* #3ABFF8 -> Info blue */
+  --color-info-content: oklch(99% 0.002 220); /* White on info */
+
+  --color-success: oklch(62% 0.20 140); /* #36D399 -> Success green */
+  --color-success-content: oklch(25% 0.04 140); /* Dark on success */
+
+  --color-warning: oklch(85% 0.20 80); /* #FBBD23 -> Warning yellow */
+  --color-warning-content: oklch(25% 0.04 80); /* Dark on warning */
+
+  --color-error: oklch(62% 0.25 25); /* #F87272 -> Error red */
+  --color-error-content: oklch(99% 0.002 25); /* White on error */
+
+  /* border radius (optimized for modern feel in DaisyUI 5.5.13) */
+  --radius-selector: 0.5rem;
+  --radius-field: 0.375rem;
+  --radius-box: 0.75rem;
+
+  /* base sizes */
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+
+  /* border size */
+  --border: 1px;
+
+  /* effects */
+  --depth: 1;
+  --noise: 0;
+}
