@@ -4,6 +4,8 @@ import morgan from 'morgan';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
+import userRoutes from './routes/userRoutes.js';
+
 dotenv.config();
 
 const app = express();
@@ -14,9 +16,7 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(cors());
 
-app.get('/', (req, res) => {
-    res.send('Hello World!');
-});
+app.use('/api/users', userRoutes);  
 
 app.listen(PORT, () => {
 
