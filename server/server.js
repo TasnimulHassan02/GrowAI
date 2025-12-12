@@ -3,13 +3,19 @@ import helmet from 'helmet';
 import morgan from 'morgan';   
 import cors from 'cors';
 import dotenv from 'dotenv';
+import pg from 'pg';
+import './config/init.js';
+
 
 import userRoutes from './routes/userRoutes.js';
+
+const { Pool } = pg; 
+
 
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.SERVER_PORT || 3000;
 
 app.use(helmet());
 app.use(morgan("dev"));
