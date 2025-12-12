@@ -1,27 +1,61 @@
-import React from 'react'
+import React from 'react';
+import Logo from '../asset/Logo.png'; 
+import { Link, useNavigate } from "react-router-dom";
 
+function Navbar() {
+  const navigate = useNavigate();
 
-function Navbar () {
+  const token = localStorage.getItem("token");
+  const loggedIn = Boolean(token);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token"); 
+    navigate("/login");
+  };
 
   return (
-    <div>
-      <nav className="flex justify-between bg-white items-center px-10 py-4 ">
-        <div className="text-2xl font-bold flex items-center gap-2">
-          <span className="w-14"><img src='./src/asset/Logo.png'></img></span> GrowAI
-        </div>
-        <ul className="menu menu-horizontal px-3 text-[18px] font-medium gap-6">
-          <li><a>Home</a></li>
-          <li><a>About us</a></li>
-          <li><a>Datasets</a></li>
-          <li><a>Solutions</a></li>
-        </ul>
-        <div className="flex gap-3">
-          <button className="btn btn-neutral rounded-3xl px-8">Log In</button>
-          <button className="btn bg-[#50ffaf] text-black px-8 rounded-3xl">Sign Up</button>
-        </div>
-      </nav>
-    </div>
+    <nav className="flex justify-between bg-white items-center px-10 py-4">
+      <div className="text-2xl font-bold flex items-center gap-2">
+        <span className="w-14">
+          <img src={Logo} alt="GrowAI Logo" />
+        </span>
+        GrowAI
+      </div>
+
+      <ul className="menu menu-horizontal px-3 text-[18px] font-medium gap-6">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About us</a></li>
+        <li><a href="#">Datasets</a></li>
+        <li><a href="#">Solutions</a></li>
+      </ul>
+
+      <div className="flex gap-3">
+        {loggedIn ? (
+          <button
+            onClick={handleLogout}
+            className="btn bg-red-400 text-white px-8 rounded-3xl"
+          >
+            Log Out
+          </button>
+        ) : (
+          <>
+            <button
+              className="btn btn-neutral rounded-3xl px-8"
+              onClick={() => navigate("/login")}
+            >
+              Log In
+            </button>
+            <button
+              className="btn bg-[#50ffaf] text-black px-8 rounded-3xl"
+              onClick={() => navigate("/register")}
+            >
+              Sign Up
+            </button>
+          </>
+        )}
+      </div>
+    </nav>
   );
-};
+}
 
 export default Navbar;

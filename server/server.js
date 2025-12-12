@@ -6,6 +6,8 @@ import dotenv from 'dotenv';
 import pg from 'pg';
 import './config/init.js';
 import userRoutes from './routes/userRoutes.js';
+import authRoutes from './routes/authRoutes.js';
+import profileRoutes from './routes/profileRoutes.js';
 
 const { Pool } = pg; 
 
@@ -17,11 +19,15 @@ const PORT = process.env.SERVER_PORT || 3000;
 app.use(helmet());
 app.use(morgan("dev"));
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true
+}));
+
 
 app.use('/api/users', userRoutes); 
-app.use('/api/auth', userRoutes);
-app.use('/api/profile', userRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/profile', profileRoutes);
 
 
 app.listen(PORT, () => {

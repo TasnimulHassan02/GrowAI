@@ -1,4 +1,5 @@
 import React from 'react'
+import Heros from '../asset/Heros.png';
 
 function Hero() {
 
@@ -15,11 +16,11 @@ function Hero() {
           </p>
           <div className="flex gap-4">
             <button className="btn bg-black text-white px-6 rounded-3xl">Let's Talk</button>
-            <button className="btn btn-outline btn-primary text-black px-6 rounded-2xl">Discover More</button>
+            <button className="btn btn-outline btn-primary text-black px-6 rounded-3xl">Discover More</button>
           </div>
         </div>
         <div className="flex justify-center">
-          <img src="./src/asset/hero-illustration.png" alt="illustration" className="w-3/4" />
+          <img src={Heros} alt="illustration" className="w-3/4" />
         </div>
     </section>
 

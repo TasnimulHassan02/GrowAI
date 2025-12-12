@@ -1,26 +1,76 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import api from "../api/axios";
+import { useNavigate } from "react-router-dom";
+
 
 function RegisterPage() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [showCPassword, setShowCPassword] = useState(false);
+  const navigate = useNavigate();
+
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  function handleChange(e) {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setLoading(true);
+    setErrorMessage("");
+
+    try {
+      const response = await api.post("/auth/register", form);
+
+      console.log("Registered:", response.data);
+
+      // Redirect to login
+      navigate("/login");
+    } catch (error) {
+      console.error(error);
+
+      if (error.response) {
+        setErrorMessage(error.response.data.message);
+      } else {
+        setErrorMessage("Something went wrong.");
+      }
+    }
+
+    setLoading(false);
+  }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-      <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-sm border border-gray-200">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+      <div className="w-full max-w-md bg-white p-10 rounded-3xl shadow-sm border border-gray-200">
 
-        <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
+        <h2 className="text-3xl font-extrabold text-gray-900 mb-6 text-center">
           Create Your Account
         </h2>
 
-        <form action="/register" method="POST" className="space-y-5">
+        {errorMessage && (
+          <p className="text-red-500 text-sm mb-4 text-center">{errorMessage}</p>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-6">
 
           <div>
-            <label className="text-sm font-medium text-gray-700">Full Name</label>
+            <label className="text-sm font-medium text-gray-700">Name</label>
             <input
               type="text"
+              name="name"
               placeholder="Enter your full name"
-              className="mt-1 w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-400 focus:outline-none"
+              value={form.name}
+              onChange={handleChange}
+              className="mt-1 w-full px-5 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-400 focus:border-green-400 outline-none transition duration-200"
               required
             />
           </div>
@@ -29,55 +79,34 @@ function RegisterPage() {
             <label className="text-sm font-medium text-gray-700">Email</label>
             <input
               type="email"
+              name="email"
               placeholder="Enter your email"
-              className="mt-1 w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-400 focus:outline-none"
+              value={form.email}
+              onChange={handleChange}
+              className="mt-1 w-full px-5 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-400 focus:border-green-400 outline-none transition duration-200"
               required
             />
           </div>
 
           <div>
             <label className="text-sm font-medium text-gray-700">Password</label>
-            <div className="relative mt-1">
-              <input
-                type={showPassword ? "text" : "password"}
-                placeholder="Create a password"
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-400 focus:outline-none"
-                required
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-2.5 text-sm text-gray-500"
-              >
-                {showPassword ? "Hide" : "Show"}
-              </button>
-            </div>
-          </div>
-
-          <div>
-            <label className="text-sm font-medium text-gray-700">Confirm Password</label>
-            <div className="relative mt-1">
-              <input
-                type={showCPassword ? "text" : "password"}
-                placeholder="Confirm your password"
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-400 focus:outline-none"
-                required
-              />
-              <button
-                type="button"
-                onClick={() => setShowCPassword(!showCPassword)}
-                className="absolute right-3 top-2.5 text-sm text-gray-500"
-              >
-                {showCPassword ? "Hide" : "Show"}
-              </button>
-            </div>
+            <input
+              type="password"
+              name="password"
+              placeholder="Create a password"
+              value={form.password}
+              onChange={handleChange}
+              className="mt-1 w-full px-5 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-400 focus:border-green-400 outline-none transition duration-200"
+              required
+            />
           </div>
 
           <button
             type="submit"
-            className="w-full py-2 bg-primary text-black font-semibold rounded-lg hover:text-gray-400 transition"
+            disabled={loading}
+            className="w-full py-2 mt-4 bg-primary text-black font-semibold rounded-xl shadow-md hover:text-gray-400 transition"
           >
-            Create Account
+            {loading ? "Creating account..." : "Sign Up"}
           </button>
         </form>
 
@@ -91,5 +120,4 @@ function RegisterPage() {
     </div>
   );
 }
-
 export default RegisterPage;

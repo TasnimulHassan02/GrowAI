@@ -1,4 +1,5 @@
 import React from "react";
+import { Facebook, Instagram, Twitter, Youtube } from "lucide-react";
 
 function Footer() {
   return (
@@ -19,21 +20,20 @@ function Footer() {
 
             <div className="flex gap-4">
               <a href="#" className="w-10 h-10 bg-primary/20 hover:bg-primary rounded-lg flex items-center justify-center transition">
-                <span className="text-primary text-xl">f</span>
+                <span className="text-primary text-xl"><Facebook /></span>
               </a>
               <a href="#" className="w-10 h-10 bg-primary/20 hover:bg-primary rounded-lg flex items-center justify-center transition">
-                <span className="text-primary text-xl">ig</span>
+                <span className="text-primary text-xl"><Instagram /></span>
               </a>
               <a href="#" className="w-10 h-10 bg-primary/20 hover:bg-primary rounded-lg flex items-center justify-center transition">
-                <span className="text-primary text-xl">X</span>
+                <span className="text-primary text-xl"><Twitter /></span>
               </a>
               <a href="#" className="w-10 h-10 bg-primary/20 hover:bg-primary rounded-lg flex items-center justify-center transition">
-                <span className="text-primary text-xl">yt</span>
+                <span className="text-primary text-xl"><Youtube /></span>
               </a>
             </div>
           </div>
 
-          {/* Quick Links */}
           <div className="lg:col-span-2">
             <h3 className="font-bold text-white uppercase tracking-wider mb-6">Quick Links</h3>
             <ul className="space-y-3">
@@ -47,7 +47,6 @@ function Footer() {
             </ul>
           </div>
 
-          {/* Contact Info */}
           <div className="lg:col-span-2">
             <h3 className="font-bold text-white uppercase tracking-wider mb-6">Contact</h3>
             <div className="space-y-4 text-neutral-400">
@@ -59,7 +58,6 @@ function Footer() {
             </div>
           </div>
 
-          {/* Subscribe Card - Mint Green */}
           <div className="lg:col-span-4">
             <div className="bg-[#00f5a0] rounded-3xl p-6 shadow-2xl text-neutral">
               <h3 className="text-2xl font-bold mb-6">Subscribe For Updates!</h3>
@@ -92,7 +90,6 @@ function Footer() {
           </div>
         </div>
 
-        {/* Bottom Bar */}
         <div className=" pt-3 border-t border-neutral-800 text-center text-neutral-500 text-sm">
           © {new Date().getFullYear()} GrowAI. All rights reserved.
         </div>
