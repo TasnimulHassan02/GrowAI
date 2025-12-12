@@ -30,10 +30,8 @@ function RegisterPage() {
 
     try {
       const response = await api.post("/auth/register", form);
-
+      
       console.log("Registered:", response.data);
-
-      // Redirect to login
       navigate("/login");
     } catch (error) {
       console.error(error);

@@ -74,7 +74,6 @@ function LoginPage() {
         </button>
       </div>
 
-      {/* Submit */}
       <button
         type="submit"
         className="w-full py-3 bg-primary text-black font-bold rounded-xl hover:text-gray-400 shadow-md transition duration-200"
