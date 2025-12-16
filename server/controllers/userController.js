@@ -143,3 +143,19 @@ export const getMyProfile = async (req, res) => {
     return res.status(500).json({ message: "Server error" });
   }
 };
+
+
+// GET /api/labeler
+export const getLabelers = async (req, res) => {
+  try {
+    const result = await pool.query(
+      "SELECT * FROM labelers ORDER BY rating DESC"
+    );
+    return res.status(200).json(result.rows);
+  } catch (error) {
+    console.error("Get labelers error:", error);
+    return res.status(500).json({
+      message: "Failed to fetch labelers",
+    });
+  } 
+};

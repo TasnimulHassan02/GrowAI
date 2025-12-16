@@ -7,7 +7,7 @@ function Footer() {
       <div className="max-w-7xl mx-auto px-6 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
 
-          <div className="lg:col-span-4 space-y-8">
+          <div className="lg:col-span-4 space-y-2">
             <div className="flex items-center gap-3">
               <div className="text-2xl font-bold flex mb- items-center gap-2">
                 <span className="w-14"><img src='./src/asset/Dark-logo.png'></img></span> <h1 className='text-[#50ffaf] text-3xl'>GrowAI</h1>
@@ -59,24 +59,16 @@ function Footer() {
           </div>
 
           <div className="lg:col-span-4">
-            <div className="bg-[#00f5a0] rounded-3xl p-6 shadow-2xl text-neutral">
+            <div className="bg-[#00f5a0] rounded-3xl p-8 shadow-2xl text-neutral">
               <h3 className="text-2xl font-bold mb-6">Subscribe For Updates!</h3>
 
-              <form className="space-y-4">
-                <div>
-                  <label className="block font-semibold mb-2">Name</label>
-                  <input
-                    type="text"
-                    placeholder="Enter Your Name"
-                    className="input input-bordered w-full bg-white text-neutral placeholder-neutral-500 rounded-full"
-                  />
-                </div>
+              <form className="space-y-1">
                 <div>
                   <label className="block font-semibold mb-2">Email</label>
                   <input
                     type="email"
                     placeholder="Enter Your Mail"
-                    className="input input-bordered w-full bg-white text-neutral placeholder-neutral-500 rounded-full"
+                    className="input input-bordered w-full mb-4 bg-white text-neutral placeholder-neutral-500 rounded-full"
                   />
                 </div>
                 <button
@@ -90,7 +82,7 @@ function Footer() {
           </div>
         </div>
 
-        <div className=" pt-3 border-t border-neutral-800 text-center text-neutral-500 text-sm">
+        <div className=" pt-1 border-t border-neutral-800 text-center text-neutral-500 text-sm">
           © {new Date().getFullYear()} GrowAI. All rights reserved.
         </div>
       </div>

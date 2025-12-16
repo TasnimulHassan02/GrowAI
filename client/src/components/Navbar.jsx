@@ -23,19 +23,19 @@ function Navbar() {
       </div>
 
       <ul className="menu menu-horizontal px-3 text-[18px] font-medium gap-6">
-        <li><a href="#">Home</a></li>
+        <li><a href="/">Home</a></li>
         <li><a href="#">About us</a></li>
         <li><a href="#">Datasets</a></li>
-        <li><a href="#">Solutions</a></li>
+        <li><a href="/labelers">Solutions</a></li>
       </ul>
 
       <div className="flex gap-3">
         {loggedIn ? (
           <button
             onClick={handleLogout}
-            className="btn bg-red-400 text-white px-8 rounded-3xl"
+            className="btn bg-primary text-black px-8 rounded-3xl"
           >
-            Log Out
+            Sign Out
           </button>
         ) : (
           <>

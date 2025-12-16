@@ -21,6 +21,7 @@ function LoginPage() {
 
       // Save token
       localStorage.setItem("token", res.data.token);
+      console.log(res.data.token);
 
       console.log("Login successful!");
       navigate("/");
