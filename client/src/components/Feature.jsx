@@ -1,26 +1,35 @@
 import React from "react";
-import { Sun } from 'lucide-react';
-
+import { ShieldCheck, Sparkles, Clock3, Workflow } from "lucide-react";
 
 function Feature() {
+
   const features = [
     {
       title: "Buy high-quality curated datasets",
-      desc: "Get access to professionally prepared, clean, and reliable datasets that are reviewed for accuracy and ready to use for analytics, AI training, research, and business projects.",
+      desc: "Professionally prepared, clean, and governed datasets ready for analytics, AI training, and research.",
+      tag: "Marketplace",
+      icon: ShieldCheck,
     },
     {
       title: "Sell your datasets securely",
-      desc: "Upload your datasets with confidence and earn money through a safe, encrypted, and trusted selling platform that protects your data and handles payments for you.",
+      desc: "Encrypted uploads, payouts handled, and fine-grained access controls to protect your IP.",
+      tag: "Monetize",
+      icon: Workflow,
     },
     {
       title: "Label your collected dataset",
-      desc: "Easily add accurate tags, annotations, and classifications to your raw data using our built-in labeling tools, helping you prepare high-quality, AI-ready datasets.",
+      desc: "Fast, accurate labeling with QA workflows so models ship with confidence.",
+      tag: "Labeling",
+      icon: Sparkles,
     },
     {
-      title: "Thousands of Datasets across every Industry",
-      desc: "Explore a wide collection of datasets across every category, making it easy to find exactly what you need for your projects.",
+      title: "Thousands of datasets across industries",
+      desc: "Search across every domain with relevance boosting and freshness signals.",
+      tag: "Coverage",
+      icon: Clock3,
     },
   ];
+
 
   return (
 
@@ -38,16 +47,30 @@ function Feature() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {features.map((item, index) => (
+
+          {features.map((item, index) => {
+            const Icon = item.icon;
+            return (
             <div
               key={index}
               className="border border-green-400 rounded-2xl p-6 hover:shadow-md transition bg-white"
             >
-              <div className="text-gray-700 mb-4 text-xl"><Sun size={38} strokeWidth={1.5} /></div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">{item.title}</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">{item.desc}</p>
+              <div className="flex items-start gap-4 p-3">
+                <div className="rounded-2xl bg-emerald-50 p-3 text-emerald-600">
+                  <Icon size={24} />
+                </div>
+                <div className="space-y-3 mt-4">
+                  <div className="text-sm font-semibold uppercase tracking-wide text-emerald-600">
+                    {item.tag}
+                  </div>
+                  <h3 className="text-xl font-semibold text-slate-900">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm text-slate-600">{item.desc}</p>
+                </div>
+              </div>
             </div>
-          ))}
+          )})}
         </div>
       </div>
     </section>
