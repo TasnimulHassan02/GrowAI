@@ -1,29 +1,20 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import api from "../api/axios";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../hook/useAuth";
 
 function LoginPage() {
   const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState(false);
+  const { loginUser } = useAuth();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
     try {
-      const res = await api.post("/auth/login", {
-        email,
-        password,
-      });
-
-      // Save token
-      localStorage.setItem("token", res.data.token);
-      console.log(res.data.token);
-
-      console.log("Login successful!");
+      await loginUser({ email, password });
       navigate("/");
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");
@@ -31,9 +22,8 @@ function LoginPage() {
   };
 
   return (
-    
-<div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-  <div className="w-full max-w-md bg-white p-10 rounded-3xl shadow-lg border border-gray-200">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="w-full max-w-md bg-white p-10 rounded-3xl shadow-lg border border-gray-200">
     
     <h2 className="text-3xl font-extrabold text-gray-900 mb-8 text-center">
       Welcome Back
@@ -90,8 +80,7 @@ function LoginPage() {
       </Link>
     </p>
   </div>
-</div>
-
+    </div>
   );
 }
 
