@@ -4,7 +4,6 @@ import { getLabelers } from "../api/fetchLabeler";
 
 export const useLabelers = () => {
   const [labelers, setLabelers] = useState([]);
-  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,13 +19,11 @@ export const useLabelers = () => {
         } else {
           console.error("Failed to fetch labelers", error);
         }
-      } finally {
-        setLoading(false);
       }
     };
 
     fetch();
   }, [navigate]);
 
-  return { labelers, loading };
+  return { labelers };
 };

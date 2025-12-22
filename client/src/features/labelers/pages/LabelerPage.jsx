@@ -8,15 +8,13 @@ import { useLabelers } from "../hooks/useLabelers";
 
 function LabelerPage() {
   const [search, setSearch] = useState("");
-  const { labelers, loading } = useLabelers();
+  const { labelers } = useLabelers();
 
   const filteredLabelers = labelers.filter(
     (p) =>
       p.full_name.toLowerCase().includes(search.toLowerCase()) ||
       p.expertise.toLowerCase().includes(search.toLowerCase())
   );
-
-  if (loading) return <div className="text-center mt-20">Loading...</div>;
 
   return (
     <div className="min-h-screen bg-white">
