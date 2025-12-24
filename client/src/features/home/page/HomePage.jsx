@@ -9,12 +9,12 @@ import Feature from "../components/Feature";
 
 function HomePage() {
   return (
-    <div className="bg-slate-50 min-h-screen">
+    <div className="min-h-screen">
       <Navbar />
 
-      <main className="space-y-16">
+      <main>
         <Hero />
-        <div className="max-w-6xl mx-auto px-4 space-y-16">
+        <div className="mx-auto px-4 space-y-10">
           <Brandbar />
           <Feature />
           <DatasetCard />

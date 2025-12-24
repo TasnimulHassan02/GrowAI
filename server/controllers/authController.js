@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { findUserByEmail, createUser } from "../models/userModel.js";
+import { validatePassword } from "../utils/validatePassword.js";
 
 const saltRounds = 10;
 
@@ -9,6 +10,11 @@ export const registerUser = async (req, res) => {
 
   if (!name || !email || !password)
     return res.status(400).json({ message: "All fields required" });
+  
+  const passwordError = validatePassword(password);
+  if (passwordError) {
+    return res.status(400).json({ message: passwordError });
+  }
 
   try {
     const existingUser = await findUserByEmail(email);

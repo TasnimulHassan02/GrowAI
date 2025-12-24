@@ -65,7 +65,7 @@ function Brandbar() {
     <div>
       <section className="py-12 text-center">
         <h2 className="text-2xl uppercase tracking-[0.2em] text-slate-600 font-semibold mb-10">Trusted by Leading Brands</h2>
-        <div className="w-full py-10 flex items-center justify-center gap-14 flex-wrap border-primary border-t border-b">
+        <div className="w-full py-10 flex items-center justify-center gap-14 flex-wrap border-primary border-t-3 border-b-3">
             {brands.map((b) => (
                 <div key={b.name} className="flex items-center justify-center">
                 {b.svg}

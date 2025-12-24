@@ -9,7 +9,7 @@ import ProtectedRoute from "./ProtectedRoute.jsx";
 function App() {
   
   return (
-    <div className="font-sans bg-white mx-8 text-gray-900">
+    <div className="font-sans bg-white text-gray-900">
       
       <Routes>
         <Route path='/' element={<HomePage />} />

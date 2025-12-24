@@ -54,7 +54,7 @@ const datasets = [
 
 function DatasetCard() {
   return (
-    <section className="px-6 py-20">
+    <section className="px-6 py-20 mx-20">
       <div className="max-w-7xl mx-auto">
 
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-12">
@@ -64,7 +64,7 @@ function DatasetCard() {
               564K+ high-quality, curated, and ready-to-use public datasets
             </p>
           </div>
-          <button className="btn btn-outline text-black btn-primary rounded-3xl gap-2">
+          <button className="btn text-black btn-primary rounded-3xl gap-2">
             View All
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
@@ -76,7 +76,7 @@ function DatasetCard() {
           {datasets.map((dataset, i) => (
             <div
               key={i}
-              className="group relative bg-base-100 rounded-3xl border border-base-300 overflow-hidden hover:shadow-1xl hover:-translate-y-1 transition-all duration-300"
+              className="group relative bg-slate-50 rounded-3xl border-2 border-primary overflow-hidden hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
             >
 
               {dataset.badge && (
@@ -96,14 +96,14 @@ function DatasetCard() {
                 <h3 className="text-xl font-bold text-base-content mb-2  transition">
                   {dataset.title}
                 </h3>
-                <p className="text-sm text-primary font-medium mb-4">{dataset.category}</p>
+                <p className="text-sm text-emerald-600 font-medium mb-4">{dataset.category}</p>
 
                 <p className="text-base-content/70 text-sm line-clamp-2 mb-6">
                   Clean, structured, and production-ready dataset used by researchers and companies worldwide.
                 </p>
-                <div className="flex items-center justify-between text-sm">
+                <div className="flex items-center justify-between text-md">
                   <div className="flex items-center gap-2">
-                    <span className="font-bold text-primary">{dataset.usability}</span>
+                    <span className="font-bold text-emerald-600">{dataset.usability}</span>
                     <span className="text-base-content/60 ml-1">/10 Usability</span>
                   </div>
                   <div className="flex items-center gap-4 text-base-content/60">
@@ -113,8 +113,8 @@ function DatasetCard() {
                   </div>
                 </div>
                 
-                <div className="mt-6 pt-6 border-t border-base-300 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <button className="btn btn-primary rounded-3xl btn-sm w-full">
+                <div className="mt-4 pt-4 border-t-2 border-base-300 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <button className="btn btn-primary font-medium rounded-3xl btn-sm w-full">
                     Preview Dataset
                   </button>
                 </div>
@@ -123,7 +123,7 @@ function DatasetCard() {
           ))}
         </div>
 
-        <div className="text-center mt-16">
+        <div className="text-center mt-24 mb-16">
           <p className="text-base-content/60 mb-6">From avocado prices to satellite imagery — we have it all.</p>
           <button className="btn btn-primary rounded-4xl btn-lg">
             Explore All 564,000+ Datasets

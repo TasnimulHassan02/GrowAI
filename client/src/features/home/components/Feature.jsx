@@ -33,8 +33,8 @@ function Feature() {
 
   return (
 
-    <section className="w-full flex justify-center py-20 px-4 bg-white">
-      <div className="max-w-6xl w-full border bg-gray-90 border-gray-200 rounded-3xl p-10">
+    <section className="w-full flex justify-center m-0 py-20 px-4">
+      <div className="max-w-6xl w-full border-2 bg-gray-90 border-gray-200 rounded-3xl p-10 bg-slate-50">
         <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-12">
           <h2 className="text-4xl font-bold leading-tight text-gray-900">
             Do More With <br />
@@ -53,7 +53,7 @@ function Feature() {
             return (
             <div
               key={index}
-              className="border border-green-400 rounded-2xl p-6 hover:shadow-md transition bg-white"
+              className="border-2 border-green-400 rounded-2xl p-6 hover:shadow-2xl transition bg-white"
             >
               <div className="flex items-start gap-4 p-3">
                 <div className="rounded-2xl bg-emerald-50 p-3 text-emerald-600">

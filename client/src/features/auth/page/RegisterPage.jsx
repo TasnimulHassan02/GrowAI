@@ -11,9 +11,11 @@ function RegisterPage() {
     password: "",
   });
 
+  const [agreeToTerms, setAgreeToTerms] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  
 
   function handleChange(e) {
     setForm({
@@ -24,6 +26,10 @@ function RegisterPage() {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    if (!agreeToTerms) {
+      setErrorMessage("You must agree to the Main Services Agreement and Privacy Policy.");
+      return;
+    }
     setLoading(true);
     setErrorMessage("");
 
@@ -49,7 +55,7 @@ function RegisterPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-      <div className="w-full max-w-md bg-white p-10 rounded-3xl shadow-lg border border-gray-200">
+      <div className="w-full max-w-md bg-white p-10 rounded-3xl shadow-xl border-3 border-primary">
         <h2 className="text-3xl font-extrabold text-gray-900 mb-6 text-center">
           Create Your Account
         </h2>
@@ -60,7 +66,7 @@ function RegisterPage() {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-3">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Name
@@ -115,11 +121,31 @@ function RegisterPage() {
               {showPassword ? "Hide" : "Show"}
             </button>
           </div>
-
+          <div className="flex items-center mt-4 gap-4">
+            <input
+              type="checkbox"
+              id="terms"
+              checked={agreeToTerms}
+              onChange={(e) => setAgreeToTerms(e.target.checked)}
+              className="w-5 h-5 text-green-600 border-gray-300 rounded focus:ring-green-500"
+              required
+              disabled={loading}
+            />
+            <label htmlFor="terms" className="text-sm text-gray-700 cursor-pointer">
+                I agree to GrowAI's{" "}
+                <a href="/terms" target="_blank" rel="noopener noreferrer" className="text-green-600 font-medium hover:underline">
+                  Services Agreement
+                </a>{" "}
+                and acknowledge GrowAI's{" "}
+                <a href="/privacy" target="_blank" rel="noopener noreferrer" className="text-green-600 font-medium hover:underline">
+                  Privacy Policy
+                </a>.
+              </label>
+            </div>
           <button
             type="submit"
             disabled={loading}
-            className={`w-full py-3 mt-6 rounded-xl font-bold text-black shadow-md transition duration-200
+            className={`w-full py-3 mt-5 cursor-pointer rounded-xl font-bold text-black shadow-md transition duration-200
               ${loading 
                 ? "bg-gray-300 cursor-not-allowed" 
                 : "bg-primary hover:bg-green-400"
@@ -129,7 +155,7 @@ function RegisterPage() {
           </button>
         </form>
 
-        <p className="text-center text-sm text-gray-600 mt-6">
+        <p className="text-center text-md text-gray-600 mt-6">
           Already have an account?{" "}
           <Link to="/login" className="text-green-500 font-semibold hover:underline">
             Login

@@ -22,8 +22,8 @@ function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="w-full max-w-md bg-white p-10 rounded-3xl shadow-lg border border-gray-200">
+    <div className="min-h-screen flex  items-center justify-center bg-gray-100">
+      <div className="w-full max-w-md bg-white p-10 rounded-3xl shadow-xl border-3 border-primary">
     
     <h2 className="text-3xl font-extrabold text-gray-900 mb-8 text-center">
       Welcome Back
@@ -67,13 +67,13 @@ function LoginPage() {
 
       <button
         type="submit"
-        className="w-full py-3 bg-primary text-black font-bold rounded-xl hover:text-gray-400 shadow-md transition duration-200"
+        className="w-full py-3 mt-4 bg-primary cursor-pointer text-black font-bold rounded-xl  hover:bg-green-400 shadow-md transition duration-200"
       >
         Login
       </button>
     </form>
 
-    <p className="text-center text-sm text-gray-600 mt-6">
+    <p className="text-center text-md text-gray-600 mt-6">
       Don’t have an account?{" "}
       <Link to="/register" className="text-green-500 font-semibold hover:underline">
         Sign up
