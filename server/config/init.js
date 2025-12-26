@@ -75,7 +75,7 @@ const createJobsTable = async () => {
     await pool.query(query);
     console.log('Jobs table ready');
   } catch (err) {
-    console.error('Error creating labelers table:', err);
+    console.error('Error creating jobs table:', err);
   }
 }
 
@@ -102,7 +102,7 @@ const createDataReqTable = async () => {
     await pool.query(query);
     console.log('Dataset Request table ready');
   } catch (err) {
-    console.error('Error creating labelers table:', err);
+    console.error('Error creating Dataset Request table:', err);
   }
 }
 

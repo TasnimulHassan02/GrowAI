@@ -43,7 +43,7 @@ export default function CheckoutPage() {
         <div className="w-full max-w-6xl grid grid-cols-1 mb-16 lg:grid-cols-2 gap-8">
 
           {/* LEFT – TRUST */}
-          <div className="rounded-3xl bg-gradient-to-br from-green-500 to-emerald-600 p-10 text-white shadow-xl flex flex-col justify-between">
+          <div className="rounded-3xl bg-linear-to-br from-green-500 to-emerald-600 p-10 text-white shadow-xl flex flex-col justify-between">
             <div>
               <h2 className="text-4xl font-extrabold leading-tight">
                 Secure Checkout

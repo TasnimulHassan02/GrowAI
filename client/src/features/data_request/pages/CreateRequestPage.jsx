@@ -106,8 +106,8 @@ export default function CreateRequestPage() {
           </div>
 
           <div className="bg-white rounded-3xl shadow-xl border overflow-hidden">
-            <div className="h-2 bg-gradient-to-r from-green-400 to-emerald-500" />
-
+            <div className="h-2 bg-linear-to-br from-green-400 to-emerald-500" />
+            
             <form onSubmit={handleSubmit} className="p-8 md:p-10 space-y-8">
 
               {/* BASIC INFO */}
@@ -190,7 +190,7 @@ export default function CreateRequestPage() {
               {/* SUBMIT */}
               <button
                 disabled={loading}
-                className="w-full cursor-pointer mb-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold py-4 rounded-2xl"
+                className="w-full cursor-pointer mb-4 bg-linear-to-br from-green-500 to-emerald-600 text-white font-bold py-4 rounded-2xl"
               >
                 {loading ? "Submitting..." : "Submit Dataset Request"}
               </button>
