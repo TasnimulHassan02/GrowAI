@@ -1,6 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../hook/useAuth";
+import { googleAuth } from "../api/authService";
+
+
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -20,6 +23,58 @@ function LoginPage() {
       setError(err.response?.data?.message || "Login failed");
     }
   };
+
+  const handleGoogleSuccess = async (credentialResponse) => {
+    try {
+      setError("");
+      const res = await googleAuth({
+        credential: credentialResponse.credential,
+      });
+
+      localStorage.setItem("token", res.data.token);
+      navigate("/");
+    } catch (err) {
+      console.error(err);
+      setError("Google login failed");
+    }
+  };
+
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://accounts.google.com/gsi/client";
+    script.async = true;
+    script.defer = true;
+    document.body.appendChild(script);
+
+    window.onGoogleLibraryLoad = () => {
+      window.google.accounts.id.initialize({
+        client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+        callback: handleGoogleSuccess,
+      });
+
+      window.google.accounts.id.renderButton(
+        document.getElementById("google-signin-button"),
+        {
+          theme: "outline",
+          size: "large",
+          text: "signin_with",
+          shape: "pill",
+          width: "100%",
+        }
+      );
+    };
+
+    script.onload = () => {
+      if (window.google) window.onGoogleLibraryLoad();
+    };
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
+
+  
 
   return (
     <div className="min-h-screen flex  items-center justify-center bg-gray-100">
@@ -67,11 +122,17 @@ function LoginPage() {
 
       <button
         type="submit"
-        className="w-full py-3 mt-4 bg-primary cursor-pointer text-black font-bold rounded-xl  hover:bg-green-400 shadow-md transition duration-200"
+        className="btn px-18 ml-22 mt-5 cursor-pointer rounded-4xl font-bold text-black shadow-md transition duration-200 bg-primary hover:bg-green-400"
       >
         Login
       </button>
     </form>
+    <div className="flex items-center my-6">
+      <div className="grow border-2 border-t border-gray-300"></div>
+      <span className="px-3 text-sm text-gray-500">OR</span>
+      <div className="grow border-2 border-t border-gray-300"></div>
+    </div>
+    <div id="google-signin-button" className="flex justify-center"></div>
 
     <p className="text-center text-md text-gray-600 mt-6">
       Don’t have an account?{" "}

@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { register } from "../api/authService";
+import { googleAuth } from "../api/authService";
+
 
 function RegisterPage() {
   const navigate = useNavigate();
@@ -52,6 +54,45 @@ function RegisterPage() {
       setLoading(false);
     }
   }
+  
+  //google OAuth
+  useEffect(() => {
+  if (!window.google) return;
+
+  google.accounts.id.initialize({
+    client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+    callback: handleGoogleSignup,
+  });
+
+  google.accounts.id.renderButton(
+    document.getElementById("google-signup"),
+    {
+      theme: "outline",
+      size: "large",
+      text: "signup_with",
+      shape: "pill",
+      width: "100%",
+    }
+  );
+}, []);
+
+async function handleGoogleSignup(response) {
+  try {
+    setLoading(true);
+    setErrorMessage("");
+
+    const res = await googleAuth({
+      credential: response.credential,
+    });
+
+    localStorage.setItem("token", res.data.token);
+    navigate("/");
+  } catch (error) {
+    setErrorMessage("Google signup failed. Try again.");
+  } finally {
+    setLoading(false);
+  }
+}
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
@@ -145,9 +186,9 @@ function RegisterPage() {
           <button
             type="submit"
             disabled={loading}
-            className={`w-full py-3 mt-5 cursor-pointer rounded-xl font-bold text-black shadow-md transition duration-200
+            className={`btn px-18 ml-20 mt-5 cursor-pointer rounded-4xl font-bold text-black shadow-md transition duration-200
               ${loading 
-                ? "bg-gray-300 cursor-not-allowed" 
+                ? "bg-gray-300 mr-20 cursor-not-allowed" 
                 : "bg-primary hover:bg-green-400"
               }`}
           >
@@ -155,13 +196,25 @@ function RegisterPage() {
           </button>
         </form>
 
+       
+        <div className="flex items-center my-4">
+          <div className="grow border-2 border-t border-gray-300"></div>
+          <span className="px-3 text-sm text-gray-500">OR</span>
+          <div className="grow border-2 border-t border-gray-300"></div>
+        </div>
+        <div className="w-full mt-4">
+          <div id="google-signup" className="flex justify-center"></div>
+        </div>
         <p className="text-center text-md text-gray-600 mt-6">
           Already have an account?{" "}
           <Link to="/login" className="text-green-500 font-semibold hover:underline">
             Login
           </Link>
         </p>
+
       </div>
+
+
     </div>
   );
 }

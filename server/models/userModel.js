@@ -2,11 +2,12 @@ import pool from "../config/db.js";
 
 export const findUserByEmail = async (email) => {
   const { rows } = await pool.query(
-    "SELECT id, name, email, password FROM users WHERE email = $1",
+   `SELECT id, name, email, password, google_id FROM users WHERE email = $1`,
     [email]
   );
   return rows[0];
 };
+
 
 export const findUserById = async (id) => {
   const { rows } = await pool.query(
@@ -21,6 +22,7 @@ export const createUser = async (name, email, hashedPassword) => {
     `INSERT INTO users (name, email, password)
      VALUES ($1, $2, $3)
      RETURNING id, name, email, created_at`,
+     
     [name, email, hashedPassword]
   );
   return rows[0];
@@ -31,4 +33,27 @@ export const getAllUsers = async () => {
     "SELECT id, name, email, created_at FROM users ORDER BY created_at DESC"
   );
   return rows;
+};
+
+export const updateUser = async (googleId, email) => {
+  const { rows } = await pool.query(
+    ` UPDATE users
+      SET google_id = $1,
+      auth_provider = 'both'
+      WHERE email = $2
+      RETURNING id, name, email`,
+      [googleId, email]
+  );
+  return rows[0];
+};
+
+export const createGoogleUser = async (name, email, googleId) => {
+  const { rows } = await pool.query( `
+    INSERT INTO users (name, email, google_id, auth_provider)
+    VALUES ($1, $2, $3, 'google')
+    RETURNING id, name, email
+    `,
+    [name, email, googleId]
+  );
+  return rows[0];
 };

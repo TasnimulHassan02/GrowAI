@@ -1,7 +1,8 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { findUserByEmail, createUser } from "../models/userModel.js";
+import { findUserByEmail, createUser, updateUser, createGoogleUser } from "../models/userModel.js";
 import { validatePassword } from "../utils/validatePassword.js";
+import { OAuth2Client } from "google-auth-library";
 
 const saltRounds = 10;
 
@@ -10,7 +11,7 @@ export const registerUser = async (req, res) => {
 
   if (!name || !email || !password)
     return res.status(400).json({ message: "All fields required" });
-  
+
   const passwordError = validatePassword(password);
   if (passwordError) {
     return res.status(400).json({ message: passwordError });
@@ -56,3 +57,43 @@ export const loginUser = async (req, res) => {
     res.status(500).json({ message: "Server error", error });
   }
 };
+
+const client = new OAuth2Client(process.env.VITE_GOOGLE_CLIENT_ID);
+
+export const googleAuth = async (req, res) => {
+  const { credential } = req.body;
+
+  if (!credential) {
+    return res.status(400).json({ message: "Google credential required" });
+  }
+
+  try {
+    const ticket = await client.verifyIdToken({
+      idToken: credential,
+      audience: process.env.VITE_GOOGLE_CLIENT_ID,
+    });
+
+    const payload = ticket.getPayload();
+    const { sub: googleId, email, name } = payload;
+
+    let user  = await findUserByEmail(email)
+
+    if (user && !user.google_id) {
+      user = await updateUser(googleId, email)
+    }
+
+    if (!user) {
+      user  = await createGoogleUser(name, email, googleId)
+    }
+
+    const token = jwt.sign(
+      { userId: user.id, email: user.email },
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" }
+    );
+    res.json({ token, user: { id: user.id, name: user.name } });
+  } catch (error) {
+    res.status(401).json({ message: "Invalid Google token", error });
+  }
+};
+   
