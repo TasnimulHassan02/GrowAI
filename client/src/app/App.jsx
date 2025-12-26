@@ -8,6 +8,7 @@ import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute.jsx";
 import RequestLabelPage from "../features/labelers/pages/RequestLabelPage.jsx";
 import CreateRequestPage from "../features/data_request/pages/CreateRequestPage.jsx";
+import RequestsDashboardPage from "../features/data_request/pages/RequestsDashboardPage.jsx";
 
 function App() {
   
@@ -29,6 +30,10 @@ function App() {
             </ProtectedRoute>
           } />
         <Route path='/datarequest' element={
+            <ProtectedRoute>
+              <RequestsDashboardPage />
+            </ProtectedRoute>} />
+        <Route path='/createrequest' element={
             <ProtectedRoute>
               <CreateRequestPage />
             </ProtectedRoute>} />

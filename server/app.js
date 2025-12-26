@@ -8,6 +8,7 @@ import profileRoutes from "./routes/profileRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import labelerRoutes from "./routes/labelerRoutes.js";
 import jobRoutes from "./routes/jobRoutes.js";
+import datasetRequestRoutes from "./routes/datasetRequestRoutes.js";
 
 const app = express();
 
@@ -22,5 +23,8 @@ app.use("/api/users", userRoutes);
 app.use("/api/labelers", labelerRoutes);
 app.use("/api/jobs", jobRoutes);
 // app.use("/api/payments/create-session", jobRoutes);
+app.use("/api/dataset_requests", datasetRequestRoutes);
+app.use("/api/requests", datasetRequestRoutes);
+
 
 export default app;

@@ -54,7 +54,7 @@ function RequestLabelPage() {
     <div className="min-h-screen flex flex-col">
       <Navbar />
 
-      <div className="flex-1 max-w-2xl mx-auto w-full p-6 mb-16">
+      <div className="flex-1 mt-8 max-w-2xl mx-auto w-full p-6 mb-16">
         <div className="bg-white rounded-2xl shadow-lg p-8 border-2 border-primary">
           <h2 className="text-3xl font-bold mb-8 text-center">
             Request Dataset Labeling

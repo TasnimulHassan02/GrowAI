@@ -80,8 +80,39 @@ const createJobsTable = async () => {
 }
 
 
+const createDataReqTable = async () => {
+  const query = `
+ CREATE TABLE IF NOT EXISTS dataset_requests (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  title VARCHAR(255) NOT NULL,
+  description TEXT,
+  data_type VARCHAR(50),
+  quantity INTEGER,
+  format VARCHAR(50),
+  deadline DATE,
+  budget NUMERIC(10,2),
+  status VARCHAR(30) DEFAULT 'open',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+`;
+
+  try {
+    await pool.query(query);
+    console.log('Dataset Request table ready');
+  } catch (err) {
+    console.error('Error creating labelers table:', err);
+  }
+}
+
 createUsersTable();
 
 createLabelsTable();
 
 createJobsTable();
+
+createDataReqTable();
+
+
+
