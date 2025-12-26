@@ -114,8 +114,8 @@ function DatasetCard() {
                 </div>
                 
                 <div className="mt-4 pt-4 border-t-2 border-base-300 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <button className="btn btn-primary font-medium rounded-3xl btn-sm w-full">
-                    Preview Dataset
+                  <button className="btn btn-error font-medium rounded-3xl btn-sm w-full">
+                    <a href="/checkout">Buy Dataset</a>
                   </button>
                 </div>
               </div>

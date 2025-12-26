@@ -24,13 +24,13 @@ function Navbar() {
 
       <ul className="menu menu-horizontal px-3 text-[18px] font-medium gap-6">
         <li><a href="/">Home</a></li>
-        <li><a href="/profile">About us</a></li>
+        <li><a href="#">About us</a></li>
         <li><a href="#">Datasets</a></li>
         <div className="dropdown dropdown-right">
         <div tabIndex={0} role="button" className="btn px-3 text-[18px] font-medium bg-white m-1">Solutions</div>
         <ul tabIndex="-1" className="dropdown-content menu border border-primary bg-base-100 rounded-box z-1 w-52 p-2 shadow-md">
           <li><a href="/labelers">Dataset Label</a></li>
-          <li><a href="/labelers">Dataset Request</a></li>
+          <li><a href="/datarequest">Dataset Request</a></li>
         </ul>
       </div>
       </ul>

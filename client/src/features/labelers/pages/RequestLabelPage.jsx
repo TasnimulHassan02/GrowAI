@@ -117,7 +117,7 @@ function RequestLabelPage() {
               name="contact"
               value={form.contact}
               onChange={handleChange}
-              placeholder="Mail address / Phone Number"
+              placeholder="Contact Info"
               className="w-full px-5 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary outline-none transition"
               required
             />

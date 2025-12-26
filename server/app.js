@@ -21,5 +21,6 @@ app.use("/api/profile", profileRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/labelers", labelerRoutes);
 app.use("/api/jobs", jobRoutes);
+// app.use("/api/payments/create-session", jobRoutes);
 
 export default app;
