@@ -28,7 +28,7 @@ export const createJobRequest = async (req, res) => {
         budget, 
         description, 
         status,
-        contact 
+        contact,
         created_at
     `;
     

@@ -10,6 +10,7 @@ import RequestLabelPage from "../features/labelers/pages/RequestLabelPage.jsx";
 import CreateRequestPage from "../features/data_request/pages/CreateRequestPage.jsx";
 import RequestsDashboardPage from "../features/data_request/pages/RequestsDashboardPage.jsx";
 import NotificationsPage from "../features/notifications/pages/NotificationsPage.jsx";
+import MessagesPage from "../features/messages/pages/MessagesPage.jsx"
 
 function App() {
   
@@ -46,7 +47,12 @@ function App() {
             <ProtectedRoute>
               <NotificationsPage />
             </ProtectedRoute>} />
+        <Route path="/messages" element={
+            <ProtectedRoute>
+              <MessagesPage />
+            </ProtectedRoute>} />
       </Routes>
+      
       
       
     </div>

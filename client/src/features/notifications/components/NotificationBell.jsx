@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import { Bell } from "lucide-react";
-import { useNotifications } from "../features/notifications/hooks/useNotifications";
+import { useNotifications } from "../hooks/useNotifications";
 import {
   markAsRead,
   markAllAsRead,
-} from "../features/notifications/api/notificationService";
+} from "../api/notificationService";
 import { useNavigate } from "react-router-dom";
 
 function NotificationBell() {
@@ -131,7 +131,7 @@ function NotificationBell() {
         <div className="absolute right-0 mt-2 w-96 bg-white rounded-lg shadow-xl border border-gray-200 z-50 max-h-[420px] overflow-hidden flex flex-col">
           {/* Header */}
           <div className="p-4 border-b border-gray-200 flex justify-between items-center">
-            <h3 className="font-bold text-lg">Notifications</h3>
+            <h3 className="font-bold border border-gray-300 p-3 rounded text-lg">Notifications</h3>
             {unreadCount > 0 && (
               <button
                 onClick={handleMarkAllAsRead}
@@ -210,7 +210,7 @@ function NotificationBell() {
                   setIsOpen(false);
                   navigate("/notifications");
                 }}
-                className="text-sm text-primary hover:underline"
+                className="text-md text-black cursor-pointer hover:underline"
               >
                 View all notifications
               </button>

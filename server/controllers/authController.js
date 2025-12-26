@@ -131,3 +131,15 @@ export const googleAuth = async (req, res) => {
 //   2,  // relatedId 
 //   "dataset"   // relatedType
 // ).catch(err => console.error("Notification error:", err));
+
+// import { sendNotification } from "../controllers/notificationController.js";
+// sendNotification(
+//   17,
+//   "message",
+//   "New Message",
+//   `You have a new message from GrowAI`,
+//   12,
+//   "conversation"
+// );
+
+

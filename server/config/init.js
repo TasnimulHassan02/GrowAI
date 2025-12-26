@@ -137,6 +137,75 @@ const createNotificationsTable = async () => {
   }
 }
 
+
+const createConversationsTable = async () => {
+  const query = `
+    CREATE TABLE IF NOT EXISTS conversations (
+      id SERIAL PRIMARY KEY,
+      buyer_id INTEGER NOT NULL,
+      seller_id INTEGER NOT NULL,
+      dataset_id INTEGER,
+      job_id INTEGER,
+      subject VARCHAR(255),
+      last_message_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+      created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+      
+      CONSTRAINT fk_conversation_buyer
+        FOREIGN KEY (buyer_id)
+        REFERENCES users(id)
+        ON DELETE CASCADE,
+      CONSTRAINT fk_conversation_seller
+        FOREIGN KEY (seller_id)
+        REFERENCES users(id)
+        ON DELETE CASCADE,
+      CONSTRAINT unique_conversation UNIQUE (buyer_id, seller_id, dataset_id, job_id)
+    );
+    
+    CREATE INDEX IF NOT EXISTS idx_conversations_buyer ON conversations(buyer_id);
+    CREATE INDEX IF NOT EXISTS idx_conversations_seller ON conversations(seller_id);
+  `;
+
+  try {
+    await pool.query(query);
+    console.log('Conversations table ready');
+  } catch (err) {
+    console.error('Error creating conversations table:', err);
+  }
+}
+
+const createMessagesTable = async () => {
+  const query = `
+    CREATE TABLE IF NOT EXISTS messages (
+      id SERIAL PRIMARY KEY,
+      conversation_id INTEGER NOT NULL,
+      sender_id INTEGER NOT NULL,
+      message TEXT NOT NULL,
+      is_read BOOLEAN DEFAULT FALSE,
+      created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+      
+      CONSTRAINT fk_message_conversation
+        FOREIGN KEY (conversation_id)
+        REFERENCES conversations(id)
+        ON DELETE CASCADE,
+      CONSTRAINT fk_message_sender
+        FOREIGN KEY (sender_id)
+        REFERENCES users(id)
+        ON DELETE CASCADE
+    );
+    
+    CREATE INDEX IF NOT EXISTS idx_messages_conversation ON messages(conversation_id);
+    CREATE INDEX IF NOT EXISTS idx_messages_sender ON messages(sender_id);
+    CREATE INDEX IF NOT EXISTS idx_messages_created_at ON messages(created_at);
+  `;
+
+  try {
+    await pool.query(query);
+    console.log('Messages table ready');
+  } catch (err) {
+    console.error('Error creating messages table:', err);
+  }
+}
+
 createUsersTable();
 
 createLabelsTable();
@@ -146,6 +215,8 @@ createJobsTable();
 createDataReqTable();
 
 createNotificationsTable();
+
+createMessagesTable();
 
 
 

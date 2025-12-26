@@ -10,6 +10,8 @@ import labelerRoutes from "./routes/labelerRoutes.js";
 import jobRoutes from "./routes/jobRoutes.js";
 import datasetRequestRoutes from "./routes/datasetRequestRoutes.js";
 import notificationRoutes from "./routes/notificationRoutes.js";
+import messageRoutes from "./routes/messageRoutes.js";
+
 
 const app = express();
 
@@ -27,6 +29,7 @@ app.use("/api/jobs", jobRoutes);
 app.use("/api/dataset_requests", datasetRequestRoutes);
 app.use("/api/requests", datasetRequestRoutes);
 app.use("/api/notifications", notificationRoutes);
+app.use("/api/messages", messageRoutes);
 
 
 export default app;
