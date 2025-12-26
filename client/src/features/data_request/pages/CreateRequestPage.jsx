@@ -105,7 +105,7 @@ export default function CreateRequestPage() {
             </p>
           </div>
 
-          <div className="bg-white rounded-3xl shadow-xl border overflow-hidden">
+          <div className="bg-white rounded-3xl shadow-xl border border-gray-300 overflow-hidden">
             <div className="h-2 bg-linear-to-br from-green-400 to-emerald-500" />
             
             <form onSubmit={handleSubmit} className="p-8 md:p-10 space-y-8">
@@ -117,7 +117,7 @@ export default function CreateRequestPage() {
                 <input
                   name="title"
                   placeholder="Dataset title"
-                  className="w-full border rounded-xl px-5 py-3 mb-4"
+                  className="w-full border border-gray-400 rounded-xl px-5 py-3 mb-4"
                   onChange={handleChange}
                   required
                 />
@@ -126,7 +126,7 @@ export default function CreateRequestPage() {
                   name="description"
                   placeholder="Describe what kind of data you need, labeling rules, edge cases, etc."
                   rows="4"
-                  className="w-full border rounded-xl px-5 py-3"
+                  className="w-full border border-gray-400 rounded-xl px-5 py-3"
                   onChange={handleChange}
                 />
               </section>
@@ -138,7 +138,7 @@ export default function CreateRequestPage() {
                 <div className="grid md:grid-cols-2 gap-5">
                   <select
                     name="dataType"
-                    className="border rounded-xl px-4 py-3"
+                    className="border border-gray-400 rounded-xl px-4 py-3"
                     onChange={handleChange}
                   >
                     <option value="image">Image</option>
@@ -151,7 +151,7 @@ export default function CreateRequestPage() {
                     name="quantity"
                     type="number"
                     placeholder="Number of samples"
-                    className="border rounded-xl px-4 py-3"
+                    className="border border-gray-400 rounded-xl px-4 py-3"
                     onChange={handleChange}
                     required
                   />
@@ -159,7 +159,7 @@ export default function CreateRequestPage() {
                   <input
                     name="format"
                     placeholder="CSV, JSON, JPG..."
-                    className="border rounded-xl px-4 py-3"
+                    className="border border-gray-400 rounded-xl px-4 py-3"
                     onChange={handleChange}
                     required
                   />
@@ -167,7 +167,7 @@ export default function CreateRequestPage() {
                   <input
                     name="deadline"
                     type="date"
-                    className="border rounded-xl px-4 py-3"
+                    className="border border-gray-400 rounded-xl px-4 py-3"
                     onChange={handleChange}
                     required
                   />
@@ -181,7 +181,7 @@ export default function CreateRequestPage() {
                   name="budget"
                   type="number"
                   placeholder="USD"
-                  className="w-full border rounded-xl px-5 py-3"
+                  className="w-full border border-gray-400 rounded-xl px-5 py-3"
                   onChange={handleChange}
                   required
                 />
@@ -190,7 +190,7 @@ export default function CreateRequestPage() {
               {/* SUBMIT */}
               <button
                 disabled={loading}
-                className="w-full cursor-pointer mb-4 bg-linear-to-br from-green-500 to-emerald-600 text-white font-bold py-4 rounded-2xl"
+                className="w-full cursor-pointer mb-4 bg-primary text-black font-bold py-4 rounded-2xl"
               >
                 {loading ? "Submitting..." : "Submit Dataset Request"}
               </button>

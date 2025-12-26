@@ -96,4 +96,38 @@ export const googleAuth = async (req, res) => {
     res.status(401).json({ message: "Invalid Google token", error });
   }
 };
-   
+
+
+
+// import { sendNotification } from "../controllers/notificationController.js";
+// sendNotification(
+//   19,
+//   "purchase",  // type
+//   "Purchase Successful",  // title
+//   "Your purchase was successful",  // message
+//   1,  // relatedId 
+//   "dataset"   // relatedType
+// ).catch(err => console.error("Notification error:", err));
+// upload_approval
+
+
+// import { sendNotification } from "../controllers/notificationController.js";
+// sendNotification(
+//   19,
+//   "upload_approval",  // type
+//   "upload_approval Successful",  // title
+//   "Your upload_approval was successful",  // message
+//   2,  // relatedId 
+//   "dataset"   // relatedType
+// ).catch(err => console.error("Notification error:", err));
+
+
+// import { sendNotification } from "../controllers/notificationController.js";
+// sendNotification(
+//   19,
+//   "upload_rejected",  // type
+//   "upload_approval rejected",  // title
+//   "Your upload_approval was rejected",  // message
+//   2,  // relatedId 
+//   "dataset"   // relatedType
+// ).catch(err => console.error("Notification error:", err));

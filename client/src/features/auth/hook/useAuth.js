@@ -4,6 +4,10 @@ export const useAuth = () => {
   const loginUser = async (credentials) => {
     const res = await login(credentials);
     localStorage.setItem("token", res.data.token);
+    // Store user info if provided
+    if (res.data.user) {
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+    }
     return res.data;
   };
 

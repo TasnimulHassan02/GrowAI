@@ -9,6 +9,7 @@ import ProtectedRoute from "./ProtectedRoute.jsx";
 import RequestLabelPage from "../features/labelers/pages/RequestLabelPage.jsx";
 import CreateRequestPage from "../features/data_request/pages/CreateRequestPage.jsx";
 import RequestsDashboardPage from "../features/data_request/pages/RequestsDashboardPage.jsx";
+import NotificationsPage from "../features/notifications/pages/NotificationsPage.jsx";
 
 function App() {
   
@@ -40,6 +41,10 @@ function App() {
         <Route path='/checkout' element={
             <ProtectedRoute>
               <CheckoutPage />
+            </ProtectedRoute>} />
+        <Route path="/notifications" element={
+            <ProtectedRoute>
+              <NotificationsPage />
             </ProtectedRoute>} />
       </Routes>
       

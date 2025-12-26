@@ -56,6 +56,7 @@ const createJobsTable = async () => {
   dataset_size TEXT NOT NULL,
   deadline TIMESTAMP WITH TIME ZONE NOT NULL,
   budget NUMERIC(10, 2) NOT NULL,
+  contact VARCHAR(200),
   description TEXT NOT NULL,
   status TEXT NOT NULL DEFAULT 'pending'
     CHECK (status IN ('pending', 'in-progress', 'completed')),
@@ -106,6 +107,36 @@ const createDataReqTable = async () => {
   }
 }
 
+const createNotificationsTable = async () => {
+  const query = `
+    CREATE TABLE IF NOT EXISTS notifications (
+      id SERIAL PRIMARY KEY,
+      user_id INTEGER NOT NULL,
+      type VARCHAR(50) NOT NULL CHECK (type IN ('purchase', 'upload_approval', 'upload_rejected', 'dataset_update', 'message', 'job_update', 'general')),
+      title VARCHAR(255) NOT NULL,
+      message TEXT NOT NULL,
+      related_id INTEGER,
+      related_type VARCHAR(50),
+      is_read BOOLEAN DEFAULT FALSE,
+      email_sent BOOLEAN DEFAULT FALSE,
+      created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+      
+      CONSTRAINT fk_notification_user
+        FOREIGN KEY (user_id)
+        REFERENCES users(id)
+        ON DELETE CASCADE
+    );
+    
+  `;
+
+  try {
+    await pool.query(query);
+    console.log('Notifications table ready');
+  } catch (err) {
+    console.error('Error creating notifications table:', err);
+  }
+}
+
 createUsersTable();
 
 createLabelsTable();
@@ -113,6 +144,8 @@ createLabelsTable();
 createJobsTable();
 
 createDataReqTable();
+
+createNotificationsTable();
 
 
 
