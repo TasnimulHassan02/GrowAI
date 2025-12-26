@@ -47,6 +47,41 @@ const createLabelsTable = async () => {
   }
 }
 
+
+const createJobsTable = async () => {
+  const query = `
+  CREATE TABLE IF NOT EXISTS jobs (
+  id SERIAL PRIMARY KEY,
+  task_type TEXT NOT NULL,
+  dataset_size TEXT NOT NULL,
+  deadline TIMESTAMP WITH TIME ZONE NOT NULL,
+  budget NUMERIC(10, 2) NOT NULL,
+  description TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'pending'
+    CHECK (status IN ('pending', 'in-progress', 'completed')),
+  requester_id INTEGER NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+
+  -- Foreign key constraint to users table
+  CONSTRAINT fk_requester
+    FOREIGN KEY (requester_id) 
+    REFERENCES users(id)
+    ON DELETE CASCADE
+  );
+`;
+
+  try {
+    await pool.query(query);
+    console.log('Jobs table ready');
+  } catch (err) {
+    console.error('Error creating labelers table:', err);
+  }
+}
+
+
 createUsersTable();
 
 createLabelsTable();
+
+createJobsTable();

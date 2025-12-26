@@ -3,7 +3,7 @@ import VerifiedIcon from '../../../asset/VerifiedIcon.png';
 
 const CardGrid = ({ labelers }) => {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mx-20 px-6">
       {labelers.map((person) => (
         <div
           key={person.id}
@@ -25,7 +25,7 @@ const CardGrid = ({ labelers }) => {
             </div>
           </div>
 
-          <p className="text-gray-700 mb-2">{person.expertise}</p>
+          <div className="badge badge-accent mb-2 p-4">{person.expertise}</div>
 
           <div className="flex justify-between items-center mb-4">
             <span className="font-semibold text-gray-900">
@@ -37,14 +37,14 @@ const CardGrid = ({ labelers }) => {
           </div>
 
           <button
-            className={`w-full py-2 rounded-xl font-semibold transition ${
+            className={`w-full py-2 cursor-pointer rounded-xl font-semibold transition ${
               person.is_verified
                 ? "bg-primary hover:bg-green-400 text-black"
                 : "bg-gray-300 cursor-not-allowed text-gray-600"
             }`}
             disabled={!person.is_verified}
-          >
-            {person.is_verified ? "Request" : "Unavailable"}
+          ><a href="/requestlabel">{person.is_verified ? "Request" : "Unavailable"}</a>
+            
           </button>
         </div>
       ))}

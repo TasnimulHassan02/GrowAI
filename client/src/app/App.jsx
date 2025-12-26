@@ -5,6 +5,7 @@ import RegisterPage from "../features/auth/page/RegisterPage.jsx";
 import LabelerPage from "../features/labelers/pages/LabelerPage.jsx";
 import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute.jsx";
+import RequestLabelPage from "../features/labelers/pages/RequestLabelPage.jsx";
 
 function App() {
   
@@ -20,6 +21,10 @@ function App() {
               <LabelerPage />
             </ProtectedRoute>
           } />
+        <Route path="/requestlabel" element={
+            <ProtectedRoute>
+              <RequestLabelPage />
+            </ProtectedRoute>} />
       </Routes>
       
     </div>

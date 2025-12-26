@@ -17,7 +17,7 @@ function LabelerPage() {
   );
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen mx-auto bg-white">
       <Navbar />
 
       {/* Header */}
@@ -31,7 +31,7 @@ function LabelerPage() {
         </p>
 
         {/* Search */}
-        <div className="mt-8 flex justify-center">
+        <div className="mt-10 mb-24 flex justify-center">
           <input
             type="text"
             placeholder="Search expertise..."

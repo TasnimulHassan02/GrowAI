@@ -6,10 +6,6 @@ export const login = (data) =>
 export const register = (data) =>
   api.post("/auth/register", data);
 
-export const registerWithGoogle = (data) => {
-  return api.post("/auth/google", data);
-};
-
 export const googleAuth = (data) => {
   return api.post("/auth/google", data);
 };
