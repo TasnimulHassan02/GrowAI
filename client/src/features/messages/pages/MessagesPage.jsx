@@ -89,13 +89,13 @@ const scrollToBottom = () => {
 
       <div className="flex-1 max-w-7xl mx-auto px-4 py-8 w-full">
         <div
-          className="bg-white rounded-2xl shadow-lg overflow-hidden h-full"
+          className="bg-white border-4 border-primary rounded-2xl shadow-lg overflow-hidden h-full"
           style={{ height: "calc(100vh - 200px)" }}
         >
           <div className="flex h-full">
             {/* LEFT — Conversations */}
-            <div className="w-1/3 border-r flex flex-col">
-              <div className="p-4 border-b">
+            <div className="w-1/3 border-r border-primary flex flex-col">
+              <div className="p-4 border-b border-primary">
                 <h2 className="text-xl font-bold">Messages</h2>
               </div>
 
@@ -112,7 +112,7 @@ const scrollToBottom = () => {
                     <div
                       key={conv.id}
                       onClick={() => setSelectedConversation(conv)}
-                      className={`p-4 cursor-pointer border-b hover:bg-gray-50 ${
+                      className={`p-4 cursor-pointer border-b border-primary hover:bg-gray-50 ${
                         selectedConversation?.id === conv.id
                           ? "bg-blue-50"
                           : ""
@@ -134,7 +134,7 @@ const scrollToBottom = () => {
             <div className="flex-1 flex flex-col">
               {selectedConversation ? (
                 <>
-                  <div className="p-4 border-b bg-gray-50">
+                  <div className="p-4 border-b  bg-gray-50">
                     <h3 className="font-semibold">
                       {selectedConversation.other_user_name}
                     </h3>

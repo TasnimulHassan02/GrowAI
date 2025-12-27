@@ -11,6 +11,7 @@ import CreateRequestPage from "../features/data_request/pages/CreateRequestPage.
 import RequestsDashboardPage from "../features/data_request/pages/RequestsDashboardPage.jsx";
 import NotificationsPage from "../features/notifications/pages/NotificationsPage.jsx";
 import MessagesPage from "../features/messages/pages/MessagesPage.jsx"
+import SubscriptionPage from "../features/subs/Subscription.jsx";
 
 function App() {
   
@@ -51,6 +52,8 @@ function App() {
             <ProtectedRoute>
               <MessagesPage />
             </ProtectedRoute>} />
+      
+      <Route path='/subscriptions' element={<SubscriptionPage />} />
       </Routes>
       
       

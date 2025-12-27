@@ -25,7 +25,7 @@ function Navbar() {
 
       <ul className="menu menu-horizontal px-3 text-[18px] font-medium gap-6">
         <li><a href="/">Home</a></li>
-        <li><a href="#">About us</a></li>
+        <li><a href="/subscriptions">Offers</a></li>
         <li><a href="#">Datasets</a></li>
         <div className="dropdown dropdown-right">
         <div tabIndex={0} role="button" className="btn px-3 text-[18px] font-medium bg-white m-1">Solutions</div>
