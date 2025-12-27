@@ -6,13 +6,15 @@ import Payment from "../../../asset/Payment.jpg";
 import Bkash from "../../../asset/Bkash.jpg";
 import Rocket from "../../../asset/Rocket.png";
 import Card from "../../../asset/Card.png";
+import { useNavigate } from "react-router-dom";
 
 export default function CheckoutPage() {
   const [paymentMethod, setPaymentMethod] = useState("card");
 
   const datasetId = "ds_001";
   const price = 65;
-
+  console.log("sgf")
+  const navigate = useNavigate();
   const buyDataset = async () => {
     try {
       const res = await api.post("/payments/create-session", {
@@ -23,10 +25,22 @@ export default function CheckoutPage() {
 
       window.location.href = res.data.url;
     } catch (err) {
+      
+      navigate("/")
       console.error("Payment error:", err);
+    } finally {
+        await sendNotification(
+        17,
+        "purchase",
+        "Purchase Successful",
+        
+        `You have successfully purchased the dataset`,
+         datasetId,
+        "dataset"
+      );
     }
   };
-
+  
   return (
     <>
       <Navbar />

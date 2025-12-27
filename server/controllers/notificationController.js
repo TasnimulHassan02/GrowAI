@@ -8,7 +8,7 @@ import {
 import { findUserById } from "../models/userModel.js";
 import { sendNotificationEmail } from "../utils/emailService.js";
 
-// Helper function to create and send notification (can be imported by other controllers)
+// Helper function to create and send notification
 export const sendNotification = async (userId, type, title, message, relatedId = null, relatedType = null) => {
   try {
     // Create notification in database
