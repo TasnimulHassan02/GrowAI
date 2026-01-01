@@ -79,3 +79,4 @@ export const updateEmailSentStatus = async (notificationId) => {
   return rows[0];
 };
 
+

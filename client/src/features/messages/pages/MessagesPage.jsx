@@ -166,7 +166,7 @@ const scrollToBottom = () => {
                             <div
                               className={`px-4 py-2 rounded-lg max-w-md ${
                                 isOwn
-                                  ? "bg-primary text-white"
+                                  ? "bg-primary text-black"
                                   : "bg-gray-200"
                               }`}
                             >

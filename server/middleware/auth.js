@@ -19,10 +19,13 @@ export const protect = async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    
+
     req.user = {
-      userId: decoded.userId,
-      name: decoded.name,
+      id: decoded.id,
+      roles: decoded.role,
     };
+    console.log("User in role check:", req.user);
     next();
   } catch (error) {
     if (error.name === 'TokenExpiredError') {

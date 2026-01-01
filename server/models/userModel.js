@@ -57,3 +57,22 @@ export const createGoogleUser = async (name, email, googleId) => {
   );
   return rows[0];
 };
+
+
+export const assignRoleToUser = async (userId, roleName) => {
+  const roleResult = await pool.query(
+    "SELECT id FROM roles WHERE name = $1",
+    [roleName]
+  );
+
+  if (roleResult.rows.length === 0) {
+    throw new Error("Role not found");
+  }
+
+  const roleId = roleResult.rows[0].id;
+
+  await pool.query(
+    "INSERT INTO user_roles (user_id, role_id) VALUES ($1, $2)",
+    [userId, roleId]
+  );
+};

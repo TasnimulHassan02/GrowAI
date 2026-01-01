@@ -2,7 +2,7 @@ import { createDatasetRequest, getAllRequests } from "../models/datasetRequestMo
 
 export const submitDatasetRequest = async (req, res) => {
   try {
-    const userId = req.user.userId;
+    const userId = req.user.id;
 
     const request = await createDatasetRequest(userId, req.body);
 

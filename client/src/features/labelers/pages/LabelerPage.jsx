@@ -9,6 +9,7 @@ import { useLabelers } from "../hooks/useLabelers";
 function LabelerPage() {
   const [search, setSearch] = useState("");
   const { labelers } = useLabelers();
+  const role = localStorage.getItem("role");
 
   const filteredLabelers = labelers.filter(
     (p) =>
@@ -19,7 +20,7 @@ function LabelerPage() {
   return (
     <div className="min-h-screen mx-auto bg-white">
       <Navbar />
-
+    
       {/* Header */}
       <div className="text-center my-16 px-6">
         <h2 className="text-5xl font-medium mb-4">
@@ -41,9 +42,9 @@ function LabelerPage() {
           />
         </div>
       </div>
-
+      { !(role.includes('labeler')) && (
       <CardGrid labelers={filteredLabelers} />
-
+      )}
       <div className="flex justify-center my-10">
         <Pagination />
       </div>

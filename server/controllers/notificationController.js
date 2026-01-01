@@ -103,3 +103,16 @@ export const getUnreadCount = async (req, res) => {
   }
 };
 
+export const sucessmsg = async () => {
+try { sendNotification(
+  21,
+  "purchase",  // type
+  "Purchase Successful",  // title
+  "Your purchase was successful",  // message
+  1,  // relatedId 
+  "dataset"   // relatedType
+).catch(err => console.error("Notification error:", err));
+} catch (error) {
+    console.error("Get unread count error:", error);
+  }
+};

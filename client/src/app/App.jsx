@@ -9,9 +9,13 @@ import ProtectedRoute from "./ProtectedRoute.jsx";
 import RequestLabelPage from "../features/labelers/pages/RequestLabelPage.jsx";
 import CreateRequestPage from "../features/data_request/pages/CreateRequestPage.jsx";
 import RequestsDashboardPage from "../features/data_request/pages/RequestsDashboardPage.jsx";
-import NotificationsPage from "../features/notifications/pages/NotificationsPage.jsx";
+// import NotificationsPage from "../features/notifications/pages/NotificationsPage.jsx";
 import MessagesPage from "../features/messages/pages/MessagesPage.jsx"
 import SubscriptionPage from "../features/subs/Subscription.jsx";
+import SellerRegister from "../features/seller/pages/SellerRegisterPage.jsx";
+import RegisterLabelerPage from "../features/labelers/pages/RegisterLabelerPage";
+
+
 
 function App() {
   
@@ -44,18 +48,28 @@ function App() {
             <ProtectedRoute>
               <CheckoutPage />
             </ProtectedRoute>} />
-        <Route path="/notifications" element={
+        {/* <Route path="/notifications" element={
             <ProtectedRoute>
               <NotificationsPage />
-            </ProtectedRoute>} />
+            </ProtectedRoute>} /> */}
         <Route path="/messages" element={
             <ProtectedRoute>
               <MessagesPage />
             </ProtectedRoute>} />
       
-      <Route path='/subscriptions' element={<SubscriptionPage />} />
+        <Route path='/subscriptions' element={<SubscriptionPage />} />
+
+        <Route path="/sellers/register" element={
+            <ProtectedRoute>
+              <SellerRegister />
+            </ProtectedRoute>} />
+
+        <Route path="/labelers/register" element={
+            <ProtectedRoute>
+              <RegisterLabelerPage />
+            </ProtectedRoute>} />
       </Routes>
-      
+    
       
       
     </div>
@@ -64,3 +78,20 @@ function App() {
 
 export default App;
 
+{/* <Route
+  path="/buyer/dashboard"
+  element={
+    <ProtectedRoute allowedRoles={["buyer"]}>
+      <BuyerDashboard />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/seller/dashboard"
+  element={
+    <ProtectedRoute allowedRoles={["seller"]}>
+      <SellerDashboard />
+    </ProtectedRoute>
+  }
+/> */}

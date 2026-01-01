@@ -11,6 +11,10 @@ import jobRoutes from "./routes/jobRoutes.js";
 import datasetRequestRoutes from "./routes/datasetRequestRoutes.js";
 import notificationRoutes from "./routes/notificationRoutes.js";
 import messageRoutes from "./routes/messageRoutes.js";
+import sellerRoutes  from "./routes/sellerRoutes.js"
+import path from "path";
+
+
 
 
 const app = express();
@@ -20,6 +24,7 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 
+
 app.use("/api/auth", authRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/users", userRoutes);
@@ -28,8 +33,11 @@ app.use("/api/jobs", jobRoutes);
 // app.use("/api/payments/create-session", jobRoutes);
 app.use("/api/dataset_requests", datasetRequestRoutes);
 app.use("/api/requests", datasetRequestRoutes);
-app.use("/api/notifications", notificationRoutes);
-app.use("/api/messages", messageRoutes);
+// app.use("/api/notifications", notificationRoutes);
+// app.use("/api/messages", messageRoutes);
+app.use("/api/payments/create-session", notificationRoutes);
+app.use("/api/sellers", sellerRoutes);
+app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
 
 export default app;

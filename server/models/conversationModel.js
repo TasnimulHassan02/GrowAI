@@ -31,7 +31,7 @@ export const createOrGetConversation = async (buyerId, sellerId, datasetId = nul
     RETURNING *
   `;
   
-  const { rows } = await pool.query(insertQuery, [buyerId, sellerId, datasetId, jobId, subject]);
+  const { rows } = await pool.query(insertQuery, [buyerId, 22, datasetId, jobId, subject]);
   return rows[0];
 };
 

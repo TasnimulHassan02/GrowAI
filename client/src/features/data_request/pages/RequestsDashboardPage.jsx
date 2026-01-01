@@ -2,24 +2,28 @@ import { useEffect, useState } from "react";
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
 import RequestBar from "../components/RequestBar";
-
+import api from "../../../api/axios";
 export default function RequestsDashboardPage() {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
- 
+  const role = localStorage.getItem("role");
+
 
   useEffect(() => {
     const fetchRequests = async () => {
-      try {
-        const res = await fetch("http://localhost:3000/api/requests/");
-        const data = await res.json();
-        setRequests(data);
-      } catch (err) {
-        console.error("Error loading requests", err);
-      } finally {
-        setLoading(false);
-      }
-    };
+  try {
+    const res = await api.get("/requests", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    setRequests(res.data);
+  } catch (err) {
+    console.error("Error loading requests", err);
+  } finally {
+    setLoading(false);
+  }
+};
 
     fetchRequests();
   }, []);
@@ -42,13 +46,15 @@ export default function RequestsDashboardPage() {
                 or labeling high-quality data.
               </p>
             </div>
-
+        
             {/* CREATE REQUEST BUTTON */}
+            
             <button
               className="px-6 py-3 bg-primary cursor-pointer text-black font-semibold rounded-xl shadow hover:bg-green-500 transition"
             >
               <a href="/createrequest">+ Create Request</a>
             </button>
+         
           </div>
 
           {/* LOADING */}

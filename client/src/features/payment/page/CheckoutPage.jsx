@@ -16,7 +16,9 @@ export default function CheckoutPage() {
   console.log("sgf")
   const navigate = useNavigate();
   const buyDataset = async () => {
+    navigate("/")
     try {
+      console.log("sefwefaw")
       const res = await api.post("/payments/create-session", {
         datasetId,
         price,
@@ -26,18 +28,10 @@ export default function CheckoutPage() {
       window.location.href = res.data.url;
     } catch (err) {
       
-      navigate("/")
+      
       console.error("Payment error:", err);
     } finally {
-        await sendNotification(
-        17,
-        "purchase",
-        "Purchase Successful",
-        
-        `You have successfully purchased the dataset`,
-         datasetId,
-        "dataset"
-      );
+ 
     }
   };
   

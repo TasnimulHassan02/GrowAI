@@ -24,19 +24,31 @@ const createUsersTable = async () => {
 const createLabelsTable = async () => {
   const query = `
     CREATE TABLE IF NOT EXISTS labelers (
-      id SERIAL PRIMARY KEY,
-      full_name VARCHAR(100) NOT NULL,
-      email VARCHAR(150) UNIQUE NOT NULL,
-      profile_image TEXT,
-      expertise TEXT NOT NULL,
-      hourly_rate NUMERIC(10,2) NOT NULL,
-      rating NUMERIC(2,1) DEFAULT 0.0 CHECK (rating >= 0 AND rating <= 5),
-      review_count INT DEFAULT 0,
-      is_verified BOOLEAN DEFAULT FALSE,
-      is_available BOOLEAN DEFAULT TRUE,
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-  );
+    id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL UNIQUE REFERENCES users(id) ON DELETE CASCADE,
+    full_name VARCHAR(100) NOT NULL,
+    phone VARCHAR(50) NOT NULL,
+    description TEXT,
+    profile_image TEXT,
+    expertise TEXT NOT NULL,
+    payment_method VARCHAR(50) NOT NULL,
+    hourly_rate NUMERIC(10, 2) NOT NULL CHECK (hourly_rate >= 0),
+    rating NUMERIC(3, 2) DEFAULT 0.0 CHECK (rating >= 0 AND rating <= 5),
+    review_count INT DEFAULT 0 CHECK (review_count >= 0),
+    is_verified BOOLEAN DEFAULT FALSE,
+    is_available BOOLEAN DEFAULT TRUE,
+    status VARCHAR(20) DEFAULT 'pending' 
+        CHECK (status IN ('pending', 'approved', 'rejected', 'suspended')),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_labelers_available ON labelers(is_available) WHERE is_available = TRUE;
+CREATE INDEX IF NOT EXISTS idx_labelers_verified ON labelers(is_verified) WHERE is_verified = TRUE;
+CREATE INDEX IF NOT EXISTS idx_labelers_expertise ON labelers USING GIN (to_tsvector('english', expertise));
+CREATE INDEX IF NOT EXISTS idx_labelers_hourly_rate ON labelers(hourly_rate);
+CREATE INDEX IF NOT EXISTS idx_labelers_rating ON labelers(rating DESC);
+CREATE INDEX IF NOT EXISTS idx_labelers_status ON labelers(status);
 `;
 
   try {
@@ -206,6 +218,89 @@ const createMessagesTable = async () => {
   }
 }
 
+
+const createRolesTable = async () => {
+  const query = `
+    CREATE TABLE IF NOT EXISTS roles (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(30) UNIQUE NOT NULL
+  );
+
+  `;
+
+  try {
+    await pool.query(query);
+    console.log('Roles table ready');
+  } catch (err) {
+    console.error('Error creating roles table:', err);
+  }
+};
+
+const addRoles = async () => {
+  const query = `
+    INSERT INTO roles (name) VALUES
+    ('buyer'),
+    ('seller'),
+    ('labeler'),
+    ('admin') ON CONFLICT (name) DO NOTHING;
+  `;
+
+  try {
+    await pool.query(query);
+  } catch (err) {
+    console.error('Error creating roles:', err);
+  }
+};
+
+const createUserrolesTable = async () => {
+  const query = `
+    CREATE TABLE IF NOT EXISTS user_roles (
+      user_id INT REFERENCES users(id) ON DELETE CASCADE,
+      role_id INT REFERENCES roles(id) ON DELETE CASCADE,
+      PRIMARY KEY (user_id, role_id)
+    );
+  `;
+
+  try {
+    await pool.query(query);
+    console.log('UserRoles table ready');
+  } catch (err) {
+    console.error('Error creating UserRoles Table:', err);
+  }
+};
+
+
+const createSellersTable = async () => {
+  const query = `
+  CREATE TABLE IF NOT EXISTS sellers (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER UNIQUE NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+
+  full_name VARCHAR(150) NOT NULL,
+  phone VARCHAR(30) NOT NULL,
+  organization VARCHAR(150),
+  data_type VARCHAR(50) NOT NULL,
+  payment_method VARCHAR(50) NOT NULL,
+  description TEXT,
+  photo TEXT,
+
+  status VARCHAR(20) DEFAULT 'pending',
+
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+    
+  `;
+
+  try {
+    await pool.query(query);
+    console.log('Sellers table ready');
+  } catch (err) {
+    console.error('Error creating sellers table:', err);
+  }
+}
+
+
 createUsersTable();
 
 createLabelsTable();
@@ -217,6 +312,16 @@ createDataReqTable();
 createNotificationsTable();
 
 createMessagesTable();
+
+createConversationsTable();
+
+createRolesTable();
+
+addRoles();
+
+createUserrolesTable();
+
+createSellersTable();
 
 
 
