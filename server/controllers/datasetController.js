@@ -137,7 +137,69 @@ export const uploadDataset = async (req, res) => {
     res.status(500).json({ message: "Upload failed" });
   }
 };
+export const searchDatasets = async (req, res) => {
+  try {
+    const { q, category, price, license, sort, time } = req.query;
 
+    let query = `
+      SELECT d.*, 
+             COALESCE(s.popularity_score, 0) as popularity_score, 
+             COALESCE(s.downloads, 0) as downloads,
+             COALESCE(s.views, 0) as views
+      FROM datasets d
+      LEFT JOIN dataset_stats s ON d.id = s.dataset_id
+      WHERE d.visibility = 'public'
+    `;
+
+    const values = [];
+    let idx = 1;
+
+    // 🔍 Search by title / summary / tags
+// 🔍 Search by title / summary / tags
+if (q) {
+  // Define the index first
+  const idx_clean = idx; 
+  
+  query += ` AND (d.title ILIKE $${idx} OR d.summary ILIKE $${idx} OR $${idx_clean} = ANY(d.tags))`;
+  
+  values.push(`%${q}%`);
+  idx++;
+}
+
+    // 📂 Category filter
+    if (category && category !== "All datasets") {
+      query += ` AND d.category = $${idx}`;
+      values.push(category);
+      idx++;
+    }
+
+    // 💰 Price filter
+    if (price === "free") query += ` AND d.is_free = true`;
+    else if (price === "paid") query += ` AND d.is_free = false`;
+
+    // 📜 License filter
+    if (license) {
+      query += ` AND d.license = $${idx}`;
+      values.push(license);
+      idx++;
+    }
+
+    // ⏱ Sorting logic
+    if (sort === "popular") query += ` ORDER BY s.popularity_score DESC NULLS LAST`;
+    else if (sort === "downloads") query += ` ORDER BY s.downloads DESC NULLS LAST`;
+    else if (time === "latest") query += ` ORDER BY d.created_at DESC`;
+    else if (time === "oldest") query += ` ORDER BY d.created_at ASC`;
+    else query += ` ORDER BY d.created_at DESC`; // Default
+
+    query += " LIMIT 50";
+
+    const result = await pool.query(query, values);
+    res.status(200).json(result.rows);
+  } catch (error) {
+    console.error("Search Error:", error);
+    res.status(500).json({ message: "Failed to search datasets" });
+  }
+};
 
 
 

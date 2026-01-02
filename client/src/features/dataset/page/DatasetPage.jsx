@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchDatasets } from "../api/DatasetApi";
+// import { fetchDatasets } from "../api/DatasetApi";
 import {
   Search,
   Filter,
@@ -10,25 +10,49 @@ import {
 } from "lucide-react";
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer"
-
+import axios from "axios";
+import Pagination from "../../../components/pagination";
 export default function DatasetPage() {
   const [datasets, setDatasets] = useState([]);
-  const [category, setCategory] = useState("");
-  const role = localStorage.getItem("role")
+  const role = localStorage.getItem("role") || "";
+  
+  const [filters, setFilters] = useState({
+    q: "",
+    category: "",
+    price: "",
+    license: "",
+    sort: "",
+    time: "",
+  });
+
+  const fetchDatasets = async () => {
+    try {
+      const params = new URLSearchParams();
+      // Only add params that have values
+      Object.keys(filters).forEach(key => {
+        if (filters[key]) params.append(key, filters[key]);
+      });
+
+      const res = await axios.get(`http://localhost:3000/api/datasets/search?${params.toString()}`);
+      setDatasets(res.data);
+    } catch (err) {
+      console.error("Fetch error", err);
+    }
+  };
 
   useEffect(() => {
-    fetchDatasets({ category }).then(setDatasets);
-  }, [category]);
+    fetchDatasets();
+  }, [filters]); // This triggers whenever ANY filter changes
 
- const categories = ["All datasets", ...Array.from(new Set(datasets.map(ds => ds.category)))];
+  // Dynamic categories from existing data
+  const categories = ["All datasets", ...new Set(datasets.map(ds => ds.category))];
 
   return (
     <div>
-    <Navbar />
-
-    <div className=" min-h-screen">
-      <div className="max-w-7xl mx-auto px-6 py-12 mb-16 mt-3">
-        {/* Header */}
+      <Navbar />
+      
+      <div className="min-h-screen max-w-7xl mx-auto px-6 py-12">
+         {/* Header */}
         <div className="flex justify-between">
           <div>
             <h1 className="text-4xl font-bold text-gray-900 mb-3">
@@ -47,61 +71,80 @@ export default function DatasetPage() {
           </div>
         )}
         </div>
-
         
 
-          {/* Search Bar */}
-          <div className="mt-8 flex flex-col sm:flex-row gap-4">
-            <div className="flex-1 relative">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-6 h-6" />
-              <input
-                type="text"
-                placeholder="Search for any kind of datasets..."
-                className="w-full pl-12 pr-6 py-4 rounded-full border border-gray-300 focus:outline-none focus:ring-4 focus:ring-green-200 focus:border-green-500 transition"
-              />
-            </div>
-            <button className="flex items-center gap-3 px-8 py-4 bg-white border border-gray-300 rounded-full hover:shadow-md transition">
-              <Filter className="w-5 h-5" />
-              <span className="font-medium">Filters</span>
+        {/* MAIN SEARCH BAR (Connected to State) */}
+        <div className=" mb-10 flex flex-col sm:flex-row gap-4">
+          <div className="flex-1 relative">
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-6 h-6" />
+            <input
+              type="text"
+              placeholder="Search for any kind of datasets..."
+              value={filters.q}
+              onChange={(e) => setFilters({ ...filters, q: e.target.value })}
+              className="w-full pl-12 pr-6 py-4 rounded-full border border-gray-300 focus:ring-4 focus:ring-green-200 outline-none transition"
+            />
+          </div>
+        </div>
+
+        {/* TOP SELECTORS (For quick filtering) */}
+        <div className="flex flex-wrap justify-center gap-6 mb-10 w-6/7 ml-24 bg-gray-50 p-3 rounded-full border-2 border-primary">
+          <select 
+            className="select rounded-full select-bordered"
+            onChange={(e) => setFilters({ ...filters, category: e.target.value })}
+            value={filters.category}
+          >
+            <option value="">All Categories</option>
+            <option value="Healthcare">Healthcare</option>
+            <option value="Computer Science">Computer Science</option>
+            <option value="Business">Business</option>
+            <option value="Finance">Finance</option>
+            <option value="Educational">Educational</option>
+          </select>
+
+          <select className="select rounded-full select-bordered" onChange={(e) => setFilters({ ...filters, price: e.target.value })}>
+            <option value="">Any Price</option>
+            <option value="free">Free</option>
+            <option value="paid">Paid</option>
+          </select>
+
+          <select className="select rounded-full select-bordered" onChange={(e) => setFilters({ ...filters, sort: e.target.value })}>
+            <option value="">Sort By</option>
+            <option value="popular">Popularity</option>
+            <option value="downloads">Downloads</option>
+          </select>
+        </div>
+
+        {/* CATEGORY PILLS (Connected to State) */}
+        <div className="mt-6 mb-10 flex justify-center flex-wrap gap-3">
+          {categories.map((c) => (
+            <button
+              key={c}
+              onClick={() => setFilters({ ...filters, category: c === "All datasets" ? "" : c })}
+              className={`px-6 py-2 rounded-full font-medium transition ${
+                (filters.category === c || (c === "All datasets" && filters.category === ""))
+                  ? "bg-green-500 text-white"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+              }`}
+            >
+              {c}
             </button>
-            
-          </div>
+          ))}
+        </div>
 
-        {/* Category Pills */}
-          <div className="mt-6 mb-10 flex flex-wrap gap-3">
-            {categories.map((c) => (
-              <button
-                key={c}
-                onClick={() => setCategory(c === "All datasets" ? "" : c)}
-                className={`px-6 py-3 rounded-full font-medium transition ${
-                category === c || (c === "All datasets" && category === "")
-                    ? "bg-primary text-black"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                }`}
-              >
-                {c}
-              </button>
-            ))}
-          </div>
-
-        {/* Trending */}
-        <SectionHeader title="Trending datasets" />
-        <DatasetGrid datasets={datasets.slice(0, 10)} />
-
-        {/* Individual Categories */}
-          {categories
-            .filter(c => c !== "All datasets") // skip "All datasets" for sections
-            .map(c => (
-              <div className="mt-16" key={c}>
-                <SectionHeader title={c} />
-                <DatasetGrid datasets={datasets.filter(d => d.category === c)} />
-              </div>
-            ))}
-
+        {/* DATASET RESULTS */}
+        <SectionHeader title={filters.category || "All Datasets"} />
+        {datasets.length > 0 ? (
+          <DatasetGrid datasets={datasets} />
+        ) : (
+          <div className="text-center py-20 text-gray-500">No datasets found matching your criteria.</div>
+        )}
       </div>
+      <Pagination />
+      <br></br>
+      <br></br>
+      <Footer />
     </div>
-    <Footer />
-   </div>
   );
 }
 
@@ -110,17 +153,12 @@ export default function DatasetPage() {
 function SectionHeader({ title }) {
   return (
     
-    <div className="flex items-center justify-left gap-3 mb-6">
+    <div className="flex items-center mt-20 justify-left gap-3 mb-6">
     <div className="p-2 bg-blue-600 rounded-2xl">
                     <Package className="w-8 h-8 text-white" />
                 </div>
       <h2 className="text-xl border-gray-300 px-6 border-3 rounded-full font-bold py-2 bg-gray-50 tracking-tight">{title}</h2>
-          <button className="btn text-black border-2 border-primary rounded-3xl ml-200 gap-2">
-            View All
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
-            </svg>
-          </button>
+
     </div>
   );
 }
@@ -131,7 +169,7 @@ function DatasetGrid({ datasets }) {
       {datasets.map(ds => (
         <div
           key={ds.id}
-          className="group bg-white border-3 border-primary shadow-md rounded-2xl p-8 pb-4 transition
+          className="dataset-card group bg-white border-3 border-primary shadow-md rounded-2xl p-8 pb-4 transition
                      hover:shadow-xl hover:-translate-y-1 duration-300 overflow-hidden"
         >    
           {/* Header */}
