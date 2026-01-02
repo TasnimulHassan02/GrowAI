@@ -10,9 +10,10 @@ import labelerRoutes from "./routes/labelerRoutes.js";
 import jobRoutes from "./routes/jobRoutes.js";
 import datasetRequestRoutes from "./routes/datasetRequestRoutes.js";
 import notificationRoutes from "./routes/notificationRoutes.js";
-import messageRoutes from "./routes/messageRoutes.js";
+// import messageRoutes from "./routes/messageRoutes.js";
 import sellerRoutes  from "./routes/sellerRoutes.js"
 import path from "path";
+import adminRoutes from "./routes/adminRoutes.js"
 
 
 
@@ -38,6 +39,8 @@ app.use("/api/requests", datasetRequestRoutes);
 app.use("/api/payments/create-session", notificationRoutes);
 app.use("/api/sellers", sellerRoutes);
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
+app.use("/api/admin", adminRoutes)
+
 
 
 export default app;

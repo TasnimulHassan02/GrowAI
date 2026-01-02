@@ -61,7 +61,6 @@ export const registerLabeler = async (req, res) => {
       payment_method,
       hourly_rate,
     });
-    assignRoleToUser(userId, "labeler");
     res.status(201).json({
       message: "Labeler registered successfully",
       labeler: result.rows[0],

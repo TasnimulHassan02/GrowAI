@@ -38,8 +38,6 @@ export const registerSeller = async (req, res) => {
       photo,
     });
 
-    assignRoleToUser(userId, "seller");
-
     res.status(201).json({
       message: "Seller registered successfully",
       seller: seller.rows[0],

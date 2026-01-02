@@ -53,6 +53,8 @@ function Navbar() {
       </li>
         )}
       </ul>
+ 
+
 
       
 
@@ -60,9 +62,17 @@ function Navbar() {
         {loggedIn ? (
           <>
             {/* <NotificationBell /> */}
-            <Link to="/messages" className="btn btn-ghost">
+            {/* <Link to="/messages" className="btn btn-ghost">
               Messages
-            </Link>
+            </Link> */}
+              {role.includes("admin") && (
+                  <a
+                    href="/admin/dashboard"
+                    className="px-4 py-2 rounded-3xl bg-blue-600 text-white font-semibold hover:bg-blue-500 transition"
+                  >
+                    Admin Panel
+                  </a>
+                )}
             <button
               onClick={handleLogout}
               className="btn bg-primary text-black px-8 rounded-3xl"

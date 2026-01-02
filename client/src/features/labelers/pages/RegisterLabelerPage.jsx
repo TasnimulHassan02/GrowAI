@@ -45,9 +45,9 @@ export default function RegisterLabelerPage() {
       setLoading(true);
       const res = await storeLabeler(formData);
 
-      toast.success("Application submitted successfully! We'll review it soon.");
+      toast.success("Application submitted successfully!");
       setMessage({
-        text: "Thank you! Your labeler application has been submitted.",
+        text: "Thank you! Your labeler application has been submitted. We'll review it soon.",
         type: "success",
       });
 

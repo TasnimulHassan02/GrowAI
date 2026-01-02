@@ -216,7 +216,7 @@ export default function SellerRegister() {
             <button
               disabled={loading}
               className="w-full bg-primary hover:bg-green-500 cursor-pointer text-black font-bold py-3 rounded-xl transition"
-            >
+              href="#">
               {loading ? "Submitting..." : "Register as Seller"}
             </button>
           </form>

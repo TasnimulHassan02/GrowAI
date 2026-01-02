@@ -1,7 +1,7 @@
 import pool from "../config/db.js";
 
 export const getAllLabelers = async () => {
-  const query = `
+const query = `
     SELECT
       id,
       full_name,
@@ -11,7 +11,8 @@ export const getAllLabelers = async () => {
       review_count,
       is_verified,
       profile_image
-    FROM labelers
+    FROM labelers 
+    WHERE status = 'approved'
     ORDER BY rating DESC
   `;
 
