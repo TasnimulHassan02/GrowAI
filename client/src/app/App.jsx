@@ -18,6 +18,7 @@ import AdminDashboard from "../features/admin/page/AdminDashboardPage.jsx"
 import ProfilePage from "../features/profile/page/ProfilePage.jsx";
 import DatasetPage from "../features/dataset/page/DatasetPage.jsx";
 import DatasetDetailsPage from "../features/dataset/page/DatasetDetailsPage.jsx";
+import UploadDatasetPage from "../features/seller/pages/UploadDatasetPage.jsx";
 
 
 
@@ -85,7 +86,20 @@ function App() {
           <ProtectedRoute>
             <DatasetPage />
           </ProtectedRoute>} />
-        <Route path="/datasets/:id" element={<DatasetDetailsPage />} />
+        <Route path="/datasets/:id" element={
+            <ProtectedRoute>
+            <DatasetDetailsPage />
+          </ProtectedRoute>} />
+
+        <Route
+          path="/seller/upload"
+          element={
+            <ProtectedRoute allowedRoles={["seller"]}>
+              <UploadDatasetPage />
+            </ProtectedRoute>
+          }
+        />
+
 
       </Routes>
     

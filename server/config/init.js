@@ -310,9 +310,24 @@ CREATE TABLE IF NOT EXISTS datasets (
   description TEXT,
   category TEXT NOT NULL,
   license TEXT,
-  price NUMERIC(10,2) DEFAULT 0,
+  size_mb INT,
+  format TEXT,
+  total_records INT,
+  owner_name TEXT,
+  tags TEXT[],
+  file_path TEXT,
+  price NUMERIC(10,2) DEFAULT 0 CHECK (price >= 0),
+  summary TEXT,
+  source TEXT,
+  update_frequency TEXT DEFAULT 'one-time',
+  citation TEXT,
+  ethics_note TEXT,
+  is_free BOOLEAN DEFAULT FALSE,
+  visibility TEXT DEFAULT 'public',
+  thumbnail TEXT,
   created_by INTEGER REFERENCES users(id),
   created_at TIMESTAMP DEFAULT NOW()
+
 );    
   `;
 

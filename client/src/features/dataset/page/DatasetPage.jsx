@@ -14,6 +14,7 @@ import Footer from "../../../components/Footer"
 export default function DatasetPage() {
   const [datasets, setDatasets] = useState([]);
   const [category, setCategory] = useState("");
+  const role = localStorage.getItem("role")
 
   useEffect(() => {
     fetchDatasets({ category }).then(setDatasets);
@@ -28,13 +29,26 @@ export default function DatasetPage() {
     <div className=" min-h-screen">
       <div className="max-w-7xl mx-auto px-6 py-12 mb-16 mt-3">
         {/* Header */}
-        <h1 className="text-4xl font-bold text-gray-900 mb-3">
-          Datasets
-        </h1>
-        <p className="text-gray-600 max-w-2xl mb-8">
-          Discover high-quality datasets for research, education, and machine learning.
-          Analyze trends, preview samples, and choose the right data with confidence.
-        </p>
+        <div className="flex justify-between">
+          <div>
+            <h1 className="text-4xl font-bold text-gray-900 mb-3">
+              Datasets
+            </h1>
+            <p className="text-gray-600 max-w-2xl mb-8">
+              Discover high-quality datasets for research, education, and machine learning.
+              Analyze trends, preview samples, and choose the right data with confidence.
+            </p>
+          </div>
+        {role.includes("seller") && (
+          <div>
+              <button className="px-6 mt-2 py-3 bg-primary cursor-pointer text-black font-semibold rounded-xl shadow hover:bg-green-500 transition">
+                <a href="/seller/upload">+ Add Dataset</a>
+              </button>
+          </div>
+        )}
+        </div>
+
+        
 
           {/* Search Bar */}
           <div className="mt-8 flex flex-col sm:flex-row gap-4">
@@ -50,6 +64,7 @@ export default function DatasetPage() {
               <Filter className="w-5 h-5" />
               <span className="font-medium">Filters</span>
             </button>
+            
           </div>
 
         {/* Category Pills */}
@@ -71,7 +86,7 @@ export default function DatasetPage() {
 
         {/* Trending */}
         <SectionHeader title="Trending datasets" />
-        <DatasetGrid datasets={datasets.slice(0, 6)} />
+        <DatasetGrid datasets={datasets.slice(0, 10)} />
 
         {/* Individual Categories */}
           {categories
