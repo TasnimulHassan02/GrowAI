@@ -17,7 +17,7 @@ function Navbar() {
   };
 
   return (
-    <nav className="flex justify-between bg-white items-center px-10 py-4">
+    <nav id = "nav" className="flex justify-between bg-white items-center px-10 py-4">
       <a href="/">
       <div className="text-2xl font-bold flex items-center gap-2">
         <span className="w-14">
@@ -29,7 +29,7 @@ function Navbar() {
 
       <ul className="menu menu-horizontal text-[16px] font-medium gap-4">
         <li><a href="/subscriptions">GrowAI Pro</a></li>
-        <li><a href="#">Datasets</a></li>
+        <li><a href="/datasets">Datasets</a></li>
         <li><a href="/labelers">Data Labeling</a></li>
           {(role.includes('buyer')) && (role.includes('seller')) ? (
           <li><a href="/datarequest">Find Data</a></li>

@@ -14,6 +14,7 @@ import notificationRoutes from "./routes/notificationRoutes.js";
 import sellerRoutes  from "./routes/sellerRoutes.js"
 import path from "path";
 import adminRoutes from "./routes/adminRoutes.js"
+import datasetRoutes from "./routes/datasetRoutes.js"
 
 
 
@@ -39,6 +40,7 @@ app.use("/api/payments/create-session", notificationRoutes);
 app.use("/api/sellers", sellerRoutes);
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 app.use("/api/admin", adminRoutes)
+app.use("/api/datasets", datasetRoutes);
 
 
 

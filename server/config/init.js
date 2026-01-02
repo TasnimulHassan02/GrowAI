@@ -301,6 +301,90 @@ const createSellersTable = async () => {
 }
 
 
+
+const createDatasetTable = async () => {
+  const query = `
+CREATE TABLE IF NOT EXISTS datasets (
+  id SERIAL PRIMARY KEY,
+  title TEXT NOT NULL,
+  description TEXT,
+  category TEXT NOT NULL,
+  license TEXT,
+  price NUMERIC(10,2) DEFAULT 0,
+  created_by INTEGER REFERENCES users(id),
+  created_at TIMESTAMP DEFAULT NOW()
+);    
+  `;
+
+  try {
+    await pool.query(query);
+    console.log('Dataset table ready');
+  } catch (err) {
+    console.error('Error creating Dataset table:', err);
+  }
+}
+
+
+const createDatasetStatsTable = async () => {
+  const query = `
+  CREATE TABLE IF NOT EXISTS dataset_stats (
+    dataset_id INTEGER PRIMARY KEY REFERENCES datasets(id) ON DELETE CASCADE,
+    views INTEGER DEFAULT 0,
+    downloads INTEGER DEFAULT 0,
+    popularity_score NUMERIC(3,1) DEFAULT 0
+  );
+
+  `;
+
+  try {
+    await pool.query(query);
+    console.log('Dataset Stats table ready');
+  } catch (err) {
+    console.error('Error creating Dataset Stats table:', err);
+  }
+}
+
+const createDatasetFeedbackTable = async () => {
+  const query = `
+    CREATE TABLE IF NOT EXISTS dataset_feedback (
+      id SERIAL PRIMARY KEY,
+      dataset_id INTEGER REFERENCES datasets(id) ON DELETE CASCADE,
+      user_id INTEGER REFERENCES users(id),
+      rating INTEGER CHECK (rating BETWEEN 1 AND 5),
+      comment TEXT,
+      created_at TIMESTAMP DEFAULT NOW()
+    );
+
+
+  `;
+
+  try {
+    await pool.query(query);
+    console.log('Dataset Feedback table ready');
+  } catch (err) {
+    console.error('Error creating Dataset Feedback table:', err);
+  }
+}
+
+
+const createDatasetSampleTable = async () => {
+  const query = `
+    CREATE TABLE IF NOT EXISTS dataset_samples (
+      id SERIAL PRIMARY KEY,
+      dataset_id INTEGER REFERENCES datasets(id) ON DELETE CASCADE,
+      record JSONB
+    );
+  `;
+
+  try {
+    await pool.query(query);
+    console.log('Dataset Sample table ready');
+  } catch (err) {
+    console.error('Error creating Dataset Sample table:', err);
+  }
+}
+
+
 createUsersTable();
 
 createLabelsTable();
@@ -323,5 +407,18 @@ createUserrolesTable();
 
 createSellersTable();
 
+createDatasetTable();
+
+createDatasetStatsTable();
+
+createDatasetFeedbackTable();
+
+createDatasetSampleTable();
+
+// UPDATE dataset_stats
+// SET popularity_score = ROUND(
+//   (downloads * 0.6 + views * 0.4) / 1000,
+//   1
+// );
 
 

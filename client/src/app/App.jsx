@@ -7,8 +7,8 @@ import LabelerPage from "../features/labelers/pages/LabelerPage.jsx";
 import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute.jsx";
 import RequestLabelPage from "../features/labelers/pages/RequestLabelPage.jsx";
-import CreateRequestPage from "../features/data_request/pages/CreateRequestPage.jsx";
-import RequestsDashboardPage from "../features/data_request/pages/RequestsDashboardPage.jsx";
+import CreateRequestPage from "../features/findData/pages/CreateRequestPage.jsx";
+import RequestsDashboardPage from "../features/findData/pages/RequestsDashboardPage.jsx";
 // import NotificationsPage from "../features/notifications/pages/NotificationsPage.jsx";
 import MessagesPage from "../features/messages/pages/MessagesPage.jsx"
 import SubscriptionPage from "../features/subs/Subscription.jsx";
@@ -16,6 +16,7 @@ import SellerRegister from "../features/seller/pages/SellerRegisterPage.jsx";
 import RegisterLabelerPage from "../features/labelers/pages/RegisterLabelerPage";
 import AdminDashboard from "../features/admin/page/AdminDashboardPage.jsx"
 import ProfilePage from "../features/profile/page/ProfilePage.jsx";
+import DatasetPage from "../features/dataset/page/DatasetPage.jsx";
 
 
 
@@ -78,6 +79,10 @@ function App() {
         <Route path="/profile" element={
           <ProtectedRoute>
             <ProfilePage />
+          </ProtectedRoute>} />
+        <Route path="/datasets" element={
+          <ProtectedRoute>
+            <DatasetPage />
           </ProtectedRoute>} />
       </Routes>
     

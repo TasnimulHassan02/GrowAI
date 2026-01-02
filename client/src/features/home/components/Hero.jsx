@@ -15,7 +15,7 @@ function Hero() {
            GrowAI helps you make smarter decisions with clear, actionable insights powered by data and AI. We turn data, AI and advanced analytics into powerful tools that help businesses grow, innovate and stay ahead. Simple, intelligent and built for real impact.
           </p>
           <div className="flex gap-4">
-            <button className="btn bg-black text-white px-6 rounded-3xl">Let's Talk</button>
+            <a href='#nav'><button className="btn bg-black text-white px-6 rounded-3xl">Let's Talk</button></a>
             <button className="btn btn-outline btn-primary text-black px-6 rounded-3xl">Discover More</button>
           </div>
         </div>
