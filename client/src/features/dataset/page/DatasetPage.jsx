@@ -26,7 +26,7 @@ export default function DatasetPage() {
     <Navbar />
 
     <div className=" min-h-screen">
-      <div className="max-w-7xl mx-auto px-6 py-12">
+      <div className="max-w-7xl mx-auto px-6 py-12 mb-16 mt-3">
         {/* Header */}
         <h1 className="text-4xl font-bold text-gray-900 mb-3">
           Datasets
@@ -157,21 +157,13 @@ function DatasetGrid({ datasets }) {
             </div>
           </div>
             <div className="mt-4 pt-4 border-t-2 border-base-300 opacity-5 group-hover:opacity-100 transition-opacity">
-                <button className="btn bg-green-500 rounded-3xl text-white  text-sm btn-sm w-full">
-                <a href="/checkout">See Details</a>
-                </button>
+                <a href={`/datasets/${ds.id}`}><button className="btn bg-green-500 rounded-3xl text-white  text-sm btn-sm w-full">
+                See Details
+
+                </button></a>
             </div>
         </div>
       ))}
     </div>
   );
 }
-
-
-
-            // <a
-            //   href={`/datasets/${ds.id}`}
-            //   className="block mt-4 text-center bg-green-600 text-white py-2 rounded-xl font-bold"
-            // >
-            //   View Details
-            // </a>

@@ -17,6 +17,7 @@ import RegisterLabelerPage from "../features/labelers/pages/RegisterLabelerPage"
 import AdminDashboard from "../features/admin/page/AdminDashboardPage.jsx"
 import ProfilePage from "../features/profile/page/ProfilePage.jsx";
 import DatasetPage from "../features/dataset/page/DatasetPage.jsx";
+import DatasetDetailsPage from "../features/dataset/page/DatasetDetailsPage.jsx";
 
 
 
@@ -84,6 +85,8 @@ function App() {
           <ProtectedRoute>
             <DatasetPage />
           </ProtectedRoute>} />
+        <Route path="/datasets/:id" element={<DatasetDetailsPage />} />
+
       </Routes>
     
       
