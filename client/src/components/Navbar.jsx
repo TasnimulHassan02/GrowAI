@@ -1,5 +1,6 @@
 import React from 'react';
 import Logo from '../asset/Logo.png'; 
+import { UserRoundPen } from 'lucide-react';
 import { Link, useNavigate } from "react-router-dom";
 // import NotificationBell from '../features/notifications/components/NotificationBell';
 
@@ -65,6 +66,9 @@ function Navbar() {
             {/* <Link to="/messages" className="btn btn-ghost">
               Messages
             </Link> */}
+            <div className='mr-5 border-5 rounded-4xl p-2 border-primary'>
+                <a href='/profile'><UserRoundPen size={24} /></a>
+            </div>
               {role.includes("admin") && (
                   <a
                     href="/admin/dashboard"
@@ -79,6 +83,7 @@ function Navbar() {
             >
               Sign Out
             </button>
+            
           </>
         ) : (
           <>

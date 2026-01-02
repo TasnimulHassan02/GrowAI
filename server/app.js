@@ -17,7 +17,6 @@ import adminRoutes from "./routes/adminRoutes.js"
 
 
 
-
 const app = express();
 
 app.use(helmet());

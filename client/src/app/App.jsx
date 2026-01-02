@@ -15,6 +15,7 @@ import SubscriptionPage from "../features/subs/Subscription.jsx";
 import SellerRegister from "../features/seller/pages/SellerRegisterPage.jsx";
 import RegisterLabelerPage from "../features/labelers/pages/RegisterLabelerPage";
 import AdminDashboard from "../features/admin/page/AdminDashboardPage.jsx"
+import ProfilePage from "../features/profile/page/ProfilePage.jsx";
 
 
 
@@ -73,6 +74,11 @@ function App() {
             <ProtectedRoute allowedRoles={["admin"]}>
               <AdminDashboard />
             </ProtectedRoute>} />
+
+        <Route path="/profile" element={
+          <ProtectedRoute>
+            <ProfilePage />
+          </ProtectedRoute>} />
       </Routes>
     
       
