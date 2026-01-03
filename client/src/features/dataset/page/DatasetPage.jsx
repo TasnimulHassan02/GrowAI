@@ -1,40 +1,42 @@
 import { useEffect, useState } from "react";
-// import { fetchDatasets } from "../api/DatasetApi";
 import {
   Search,
-  Filter,
   Package,
   Download,
   Star,
   CircleDollarSign,
 } from "lucide-react";
 import Navbar from "../../../components/Navbar";
-import Footer from "../../../components/Footer"
+import Footer from "../../../components/Footer";
 import axios from "axios";
-import Pagination from "../../../components/pagination";
+
+const ITEMS_PER_PAGE = 5;
+
 export default function DatasetPage() {
   const [datasets, setDatasets] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
   const role = localStorage.getItem("role") || "";
-  
+
   const [filters, setFilters] = useState({
     q: "",
     category: "",
     price: "",
-    license: "",
     sort: "",
-    time: "",
   });
 
   const fetchDatasets = async () => {
     try {
       const params = new URLSearchParams();
-      // Only add params that have values
       Object.keys(filters).forEach(key => {
         if (filters[key]) params.append(key, filters[key]);
       });
 
-      const res = await axios.get(`http://localhost:3000/api/datasets/search?${params.toString()}`);
+      const res = await axios.get(
+        `http://localhost:3000/api/datasets/search?${params.toString()}`
+      );
+
       setDatasets(res.data);
+      setCurrentPage(1); // reset page on filter change
     } catch (err) {
       console.error("Fetch error", err);
     }
@@ -42,57 +44,60 @@ export default function DatasetPage() {
 
   useEffect(() => {
     fetchDatasets();
-  }, [filters]); // This triggers whenever ANY filter changes
+  }, [filters]);
 
-  // Dynamic categories from existing data
+  /* ---------- Pagination Logic ---------- */
+  const totalPages = Math.ceil(datasets.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const currentDatasets = datasets.slice(
+    startIndex,
+    startIndex + ITEMS_PER_PAGE
+  );
+
   const categories = ["All datasets", ...new Set(datasets.map(ds => ds.category))];
 
   return (
-    <div>
+    <>
       <Navbar />
-      
+
       <div className="min-h-screen max-w-7xl mx-auto px-6 py-12">
-         {/* Header */}
-        <div className="flex justify-between">
+        {/* Header */}
+        <div className="flex justify-between mb-10">
           <div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-3">
-              Datasets
-            </h1>
-            <p className="text-gray-600 max-w-2xl mb-8">
+            <h1 className="text-4xl font-bold mb-3">Datasets</h1>
+            <p className="text-gray-600 max-w-2xl">
               Discover high-quality datasets for research, education, and machine learning.
-              Analyze trends, preview samples, and choose the right data with confidence.
             </p>
           </div>
-        {role.includes("seller") && (
-          <div>
-              <button className="px-6 mt-2 py-3 bg-primary cursor-pointer text-black font-semibold rounded-xl shadow hover:bg-green-500 transition">
-                <a href="/seller/upload">+ Add Dataset</a>
-              </button>
-          </div>
-        )}
-        </div>
-        
 
-        {/* MAIN SEARCH BAR (Connected to State) */}
-        <div className=" mb-10 flex flex-col sm:flex-row gap-4">
-          <div className="flex-1 relative">
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-6 h-6" />
-            <input
-              type="text"
-              placeholder="Search for any kind of datasets..."
-              value={filters.q}
-              onChange={(e) => setFilters({ ...filters, q: e.target.value })}
-              className="w-full pl-12 pr-6 py-4 rounded-full border border-gray-300 focus:ring-4 focus:ring-green-200 outline-none transition"
-            />
-          </div>
+          {role.includes("seller") && (
+            <a
+              href="/seller/upload"
+              className="px-6 py-3 flex items-center bg-primary font-semibold rounded-xl hover:bg-green-500"
+            >
+              + Add Dataset
+            </a>
+          )}
         </div>
 
-        {/* TOP SELECTORS (For quick filtering) */}
-        <div className="flex flex-wrap justify-center gap-6 mb-10 w-6/7 ml-24 bg-gray-50 p-3 rounded-full border-2 border-primary">
-          <select 
-            className="select rounded-full select-bordered"
-            onChange={(e) => setFilters({ ...filters, category: e.target.value })}
+        {/* Search */}
+        <div className="mb-10 relative">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+          <input
+            type="text"
+            placeholder="Search datasets..."
+            value={filters.q}
+            onChange={e => setFilters({ ...filters, q: e.target.value })}
+            className="w-full pl-12 pr-6 py-4 rounded-full border focus:ring-4 focus:ring-green-200"
+          />
+        </div>
+
+        {/* Filters */}
+        <div className="flex flex-wrap justify-center gap-4 mb-10 bg-gray-50 p-4 rounded-full border-2 border-primary">
+          <select
+            className="select rounded-full"
             value={filters.category}
+            onChange={e => setFilters({ ...filters, category: e.target.value })}
           >
             <option value="">All Categories</option>
             <option value="Healthcare">Healthcare</option>
@@ -102,29 +107,37 @@ export default function DatasetPage() {
             <option value="Educational">Educational</option>
           </select>
 
-          <select className="select rounded-full select-bordered" onChange={(e) => setFilters({ ...filters, price: e.target.value })}>
+          <select
+            className="select rounded-full"
+            onChange={e => setFilters({ ...filters, price: e.target.value })}
+          >
             <option value="">Any Price</option>
             <option value="free">Free</option>
             <option value="paid">Paid</option>
           </select>
 
-          <select className="select rounded-full select-bordered" onChange={(e) => setFilters({ ...filters, sort: e.target.value })}>
+          <select
+            className="select rounded-full"
+            onChange={e => setFilters({ ...filters, sort: e.target.value })}
+          >
             <option value="">Sort By</option>
             <option value="popular">Popularity</option>
             <option value="downloads">Downloads</option>
           </select>
         </div>
 
-        {/* CATEGORY PILLS (Connected to State) */}
-        <div className="mt-6 mb-10 flex justify-center flex-wrap gap-3">
-          {categories.map((c) => (
+        {/* Category Pills */}
+        <div className="flex flex-wrap justify-center gap-3 mb-10">
+          {categories.map(c => (
             <button
               key={c}
-              onClick={() => setFilters({ ...filters, category: c === "All datasets" ? "" : c })}
-              className={`px-6 py-2 rounded-full font-medium transition ${
-                (filters.category === c || (c === "All datasets" && filters.category === ""))
+              onClick={() =>
+                setFilters({ ...filters, category: c === "All datasets" ? "" : c })
+              }
+              className={`px-6 py-2 rounded-full ${
+                filters.category === c || (c === "All datasets" && !filters.category)
                   ? "bg-green-500 text-white"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  : "bg-gray-100"
               }`}
             >
               {c}
@@ -132,89 +145,95 @@ export default function DatasetPage() {
           ))}
         </div>
 
-        {/* DATASET RESULTS */}
-        <SectionHeader title={filters.category || "All Datasets"} />
-        {datasets.length > 0 ? (
-          <DatasetGrid datasets={datasets} />
+        {/* Dataset Grid */}
+        {currentDatasets.length > 0 ? (
+          <DatasetGrid datasets={currentDatasets} />
         ) : (
-          <div className="text-center py-20 text-gray-500">No datasets found matching your criteria.</div>
+          <div className="text-center py-20 text-gray-500">
+            No datasets found.
+          </div>
+        )}
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex justify-center gap-2 mt-12">
+            <button
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage(p => p - 1)}
+              className="px-4 py-2 border-2 border-primary rounded disabled:opacity-40"
+            >
+              Prev
+            </button>
+
+            {[...Array(totalPages)].map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrentPage(i + 1)}
+                className={`px-4 py-2 rounded ${
+                  currentPage === i + 1
+                    ? "bg-green-500 text-white"
+                    : "border-2 border-primary" 
+                }`}
+              >
+                {i + 1}
+              </button>
+            ))}
+
+            <button
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage(p => p + 1)}
+              className="px-4 py-2 border-2 border-primary rounded disabled:opacity-40"
+            >
+              Next
+            </button>
+          </div>
         )}
       </div>
-      <Pagination />
-      <br></br>
-      <br></br>
+
       <Footer />
-    </div>
+    </>
   );
 }
 
 /* ---------------- Components ---------------- */
 
-function SectionHeader({ title }) {
-  return (
-    
-    <div className="flex items-center mt-20 justify-left gap-3 mb-6">
-    <div className="p-2 bg-blue-600 rounded-2xl">
-                    <Package className="w-8 h-8 text-white" />
-                </div>
-      <h2 className="text-xl border-gray-300 px-6 border-3 rounded-full font-bold py-2 bg-gray-50 tracking-tight">{title}</h2>
-
-    </div>
-  );
-}
-
 function DatasetGrid({ datasets }) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 ">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       {datasets.map(ds => (
         <div
           key={ds.id}
-          className="dataset-card group bg-white border-3 border-primary shadow-md rounded-2xl p-8 pb-4 transition
-                     hover:shadow-xl hover:-translate-y-1 duration-300 overflow-hidden"
-        >    
-          {/* Header */}
-          <div className="flex items-start justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <div className="bg-green-100 text-gray-600 p-2 rounded-lg">
-                <Package size={30} />
-              </div>
-              <span className=" font-semibold bg-gray-100 px-3 bg-primary/40 py-1 rounded-full">
-                {ds.category}
-              </span>
-            </div>
+          className="bg-white border-3 border-primary rounded-2xl p-8 shadow-md hover:shadow-xl transition"
+        >
+          <div className="flex items-center gap-3 mb-4">
+            <Package size={28} />
+            <span className="px-3 py-1 rounded-full bg-primary/30">
+              {ds.category}
+            </span>
           </div>
 
-          {/* Title */}
-          <h3 className="font-bold text-xl leading-snug mb-2 group-hover:text-green-600">
-            {ds.title}
-          </h3>
-
-          {/* Description */}
-          <p className="text-sm text-gray-600 mb-5">
-            {ds.description?.slice(0, 40)}...
+          <h3 className="text-xl font-bold mb-2">{ds.title}</h3>
+          <p className="text-gray-600 mb-4">
+            {ds.description?.slice(0, 60)}...
           </p>
 
-          {/* Stats */}
-          <div className="grid grid-cols-3 gap-6 text-xl font-semibold text-gray-600">
-            <div className="flex items-center text-yellow-500 gap-1">
-              <Star size={14} />
-              <span>{ds.popularity_score}</span>
-            </div>
-            <div className="flex items-center text-green-500 gap-1">
-              <Download size={14} />
-              <span>{ds.downloads}</span>
-            </div>
-            <div className="flex items-center text-blue-500 gap-1">
-              <CircleDollarSign size={14} />
-              <span>{ds.price}$</span>
-            </div>
+          <div className="flex justify-between text-sm font-semibold mb-4">
+            <span className="flex items-center gap-1 text-yellow-500">
+              <Star size={14} /> {ds.popularity_score}
+            </span>
+            <span className="flex items-center gap-1 text-green-500">
+              <Download size={14} /> {ds.downloads}
+            </span>
+            <span className="flex items-center gap-1 text-blue-500">
+              <CircleDollarSign size={14} /> {ds.price}$
+            </span>
           </div>
-            <div className="mt-4 pt-4 border-t-2 border-base-300 opacity-5 group-hover:opacity-100 transition-opacity">
-                <a href={`/datasets/${ds.id}`}><button className="btn bg-green-500 rounded-3xl text-white  text-sm btn-sm w-full">
-                See Details
 
-                </button></a>
-            </div>
+          <a href={`/datasets/${ds.id}`}>
+            <button className="w-full bg-green-500 text-white rounded-full py-2">
+              See Details
+            </button>
+          </a>
         </div>
       ))}
     </div>

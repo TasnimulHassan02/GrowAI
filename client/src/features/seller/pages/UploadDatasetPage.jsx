@@ -5,9 +5,12 @@ import {
   Upload, FileText, Tag, Lock, Globe, Database, 
   ShieldCheck, CircleDollarSign, Info, CheckCircle2, AlertCircle 
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+// import { sendNotification } from "../../../../../server/controllers/notificationController";
 import api from "../../../api/axios";
 
 export default function UploadDatasetPage() {
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     title: "", summary: "", description: "", category: "", tags: "",
     format: "", total_records: "", size_mb: "", source: "",
@@ -43,10 +46,17 @@ const handleSubmit = async (e) => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }
+      },
+      navigate("/datasets")
     );
+    // await sendNotification(
+    //   userId,
+    //   "upload_success",
+    //   "New Dataset Add Successful!",
+    //   `You now have aSuccessfully added new dataset to the system.`,
+    //   "dataset"
+    // );
 
-    alert("✅ Dataset published successfully!");
     console.log(res.data);
   } catch (err) {
     console.error(err.response?.data || err.message);
@@ -188,7 +198,7 @@ const handleSubmit = async (e) => {
               {/* Trust Score Card */}
               <div className="bg-white border-3 border-primary rounded-3xl p-8 shadow-sm">
                 <h3 className="font-bold text-slate-900 mb-6 text-2xl flex items-center gap-2">
-                   <ShieldCheck className="text-emerald-500" /> Quality Assurance
+                   <ShieldCheck className="text-emerald-500" /> Quality Score
                 </h3>
                 
                 {/* Progress Bar */}
