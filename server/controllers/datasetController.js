@@ -1,5 +1,6 @@
 
 import pool from "../config/db.js";
+import path from "path";
 
 export const getDatasets = async (req, res) => {
   const { category, q, sort } = req.query;
@@ -209,3 +210,29 @@ if (q) {
 
 
 
+export const downloadDataset = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // 1. Find the dataset file path in the database
+    const result = await pool.query('SELECT file_path FROM datasets WHERE id = $1', [id]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: "Dataset record not found" });
+    }
+
+    const relativePath = result.rows[0].file_path; // e.g., "uploads/datasets/file.zip"
+    const absolutePath = path.resolve(relativePath);
+
+    // 2. Return the URL or stream the file
+    // For now, let's return the URL as your frontend expects
+    res.json({ 
+      success: true, 
+      url: `http://localhost:3000/${relativePath}` 
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error during download" });
+  }
+};

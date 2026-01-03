@@ -333,7 +333,7 @@ export default function ProfilePage() {
                 </div>
                 <div className="p-8">
                   {isGoogleUser ? (
-                    <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-300 rounded-2xl p-10 text-center">
+                    <div className="bg-linear-to-r from-blue-50 to-indigo-50 border-2 border-blue-300 rounded-2xl p-10 text-center">
 
                       <h3 className="text-2xl font-bold text-blue-900 mb-4">
                         Signed in with Google
@@ -391,7 +391,7 @@ export default function ProfilePage() {
                         className={`w-full py-4 rounded-2xl font-bold transition-all duration-300 ${
                           updatingPassword
                             ? "bg-gray-400 text-gray-700 cursor-not-allowed"
-                            : "bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white shadow-lg hover:shadow-xl hover:-translate-y-1"
+                            : "bg-linear-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white shadow-lg hover:shadow-xl hover:-translate-y-1"
                         }`}
                       >
                         {updatingPassword ? (

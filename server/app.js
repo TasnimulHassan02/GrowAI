@@ -31,12 +31,11 @@ app.use("/api/profile", profileRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/labelers", labelerRoutes);
 app.use("/api/jobs", jobRoutes);
-// app.use("/api/payments/create-session", jobRoutes);
 app.use("/api/dataset_requests", datasetRequestRoutes);
 app.use("/api/requests", datasetRequestRoutes);
 // app.use("/api/notifications", notificationRoutes);
 // app.use("/api/messages", messageRoutes);
-app.use("/api/payments/create-session", notificationRoutes);
+app.use("/api/notifications", notificationRoutes);
 app.use("/api/sellers", sellerRoutes);
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 app.use("/api/admin", adminRoutes)

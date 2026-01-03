@@ -6,23 +6,23 @@ import Payment from "../../../asset/Payment.jpg";
 import Bkash from "../../../asset/Bkash.jpg";
 import Rocket from "../../../asset/Rocket.png";
 import Card from "../../../asset/Card.png";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
+
+
 
 export default function CheckoutPage() {
   const [paymentMethod, setPaymentMethod] = useState("card");
+  const [dataset, setDataset] = useState(null);
+  const location = useLocation();
+  const { price, title } = location.state || { price: 65, title: "Dataset" }
+  
+  const { id } = useParams();
 
-  const datasetId = "ds_001";
-  const price = 65;
-  console.log("sgf")
+  console.log("id")
   const navigate = useNavigate();
   const buyDataset = async () => {
-    navigate("/")
     try {
-      console.log("sefwefaw")
-      const res = await api.post("/payments/create-session", {
-        datasetId,
-        price,
-        method: paymentMethod,
+      const res = await api.get(`/datasets/download/${id}`, {
       });
 
       window.location.href = res.data.url;
@@ -80,7 +80,7 @@ export default function CheckoutPage() {
               <div className="space-y-2 text-gray-600">
                 <div className="flex justify-between">
                   <span>Dataset price</span>
-                  <span>$60</span>
+                  <span>{price}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Platform fee</span>
@@ -154,12 +154,17 @@ export default function CheckoutPage() {
               )}
 
               {/* CTA */}
+      
+
+
+
               <button
                 onClick={buyDataset}
                 className="cursor-pointer mt-6 w-full bg-green-500 hover:bg-green-600 text-white text-lg font-bold py-4 rounded-2xl shadow-xl transition"
               >
                 Procced to Payment
               </button>
+      
             </div>
           </div>
         </div>

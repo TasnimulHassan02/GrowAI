@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
+import { Link } from "react-router-dom";
 import {
   Star,
   Download,
@@ -32,7 +33,7 @@ export default function DatasetDetailsPage() {
       <Navbar />
 
 {/* Hero */}
-<div className="relative bg-gradient-to-br from-green-50 via-white to-blue-50  border-b-3 border-b-primary">
+<div className="relative bg-linear-to-br from-green-50 via-white to-blue-50  border-b-3 border-b-primary">
   <div className="max-w-7xl mx-auto  px-6 py-10">
 
     <span className="inline-block bg-green-400 text-black px-4 py-2 rounded-full text-sm font-semibold">
@@ -140,12 +141,17 @@ export default function DatasetDetailsPage() {
               <li className="flex gap-2">👤 <span>Seller: {dataset.owner_name}</span></li>
             </ul>
 
-            <a
-              href="/checkout"
-              className="block text-center bg-green-500 text-white py-4 rounded-full font-bold text-lg hover:bg-green-600 hover:scale-[1.02] transition-all shadow-lg"
-            >
-              Purchase Dataset
-            </a>
+     
+          <Link
+            to={`/checkout/${dataset.id}`} 
+            state={{ 
+            price: dataset.price, 
+            title: dataset.title 
+  }}
+            className="block text-center bg-green-500 text-white py-4 rounded-full font-bold text-lg hover:bg-green-600 hover:scale-[1.02] transition-all shadow-lg"
+          >
+            Purchase Dataset
+          </Link>
 
             <p className="text-xs text-center text-gray-400 mt-4">
               Secure checkout • No hidden fees

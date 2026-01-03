@@ -50,10 +50,7 @@ function App() {
             <ProtectedRoute>
               <CreateRequestPage />
             </ProtectedRoute>} />
-        <Route path='/checkout' element={
-            <ProtectedRoute>
-              <CheckoutPage />
-            </ProtectedRoute>} />
+      <Route path="/checkout/:id" element={<CheckoutPage />} />
         {/* <Route path="/notifications" element={
             <ProtectedRoute>
               <NotificationsPage />
