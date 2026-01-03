@@ -221,7 +221,7 @@ export default function ProfilePage() {
                           </li>
                         </ul>
                         <Link
-                          to="/labeler/jobs"
+                          to="/labeler/dashboard"
                           className="block text-center bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-2xl transition"
                         >
                           Go to Labeler Dashboard →

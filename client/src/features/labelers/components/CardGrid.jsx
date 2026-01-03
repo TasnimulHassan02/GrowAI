@@ -37,13 +37,9 @@ const CardGrid = ({ labelers }) => {
           </div>
 
           <button
-            className={`w-full py-2 cursor-pointer rounded-xl font-semibold transition ${
-              person.is_verified
-                ? "bg-primary hover:bg-green-400 text-black"
-                : "bg-gray-300 cursor-not-allowed text-gray-600"
-            }`}
+            className={`w-full py-2 cursor-pointer rounded-xl font-semibold transition bg-primary hover:bg-green-400 text-black`}
             disabled={!person.is_verified}
-          ><a href="/requestlabel">{person.is_verified ? "Request" : "Unavailable"}</a>
+          ><a href="/requestlabel">Request</a>
             
           </button>
         </div>

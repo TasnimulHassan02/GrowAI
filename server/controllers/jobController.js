@@ -4,61 +4,47 @@ import pool from "../config/db.js";
 export const createJobRequest = async (req, res) => {
   const client = await pool.connect();
   try {
-    const { taskType, datasetSize, deadline, budget, description, contact } = req.body;
+    const { taskType, datasetSize, deadline, budget, description, contact, status, labeler_id } = req.body;
+    const userId = req.user?.id;
 
-    if (!taskType || !datasetSize || !deadline || !budget || !description) {
-      return res.status(400).json({ message: "All fields are required" });
-    }
-    
-    const userId = req.user?.userId; //
-    
-    if (!userId) {
-      return res.status(401).json({ message: "Not authenticated" });
-    }
-
-    
+    // 1. COUNT YOUR COLUMNS (There are 9 here)
     const query = `
-      INSERT INTO jobs (task_type, dataset_size, deadline, budget, description, requester_id, status, contact)
-      VALUES ($1, $2, $3, $4, $5, $6, 'pending', $7)
-      RETURNING 
-        id, 
-        task_type, 
-        dataset_size, 
-        deadline, 
-        budget, 
-        description, 
-        status,
-        contact,
-        created_at
+      INSERT INTO jobs (
+        task_type,      
+        dataset_size,   
+        deadline,       
+        budget,         
+        description,  
+        contact,  
+         
+        status,         
+        requester_id,  
+        
+        labeler_id
+      )
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+      RETURNING *
     `;
-    
-    const values = [
-      taskType.trim(),
-      datasetSize.trim(),
-      deadline,
-      parseFloat(budget),
-      description.trim(),
-      userId,
-      contact
-    ];
+
+    // 2. COUNT YOUR VALUES (Must match the number of $ placeholders)
+// ... inside createJobRequest
+const values = [
+  taskType.trim(),          // $1
+  datasetSize.trim(),       // $2
+  deadline,                 // $3
+  parseFloat(budget),       // $4
+  description.trim(),       // $5
+  contact,
+  status ? 'assigned' : 'pending', // $7 <-- Use labeler_id here, not 'state'
+    userId,                   // $6
+  labeler_id || null        // $9
+];
 
     const result = await client.query(query, values);
-    const job = result.rows[0];
+    res.status(201).json({ message: "Job created!", job: result.rows[0] });
 
-    res.status(201).json({
-      message: "Job request submitted successfully!",
-      job,
-    });
   } catch (error) {
     console.error("Create job error:", error);
-
-    if (error.code === "23503") { // Foreign key violation
-      return res.status(400).json({ message: "Invalid user ID" });
-    }
-    if (error.code === "23502") { // NOT NULL violation
-      return res.status(400).json({ message: "Missing required field" });
-    }
-
     res.status(500).json({ message: "Failed to submit job request" });
   } finally {
     client.release();
@@ -106,35 +92,27 @@ export const getMyJobs = async (req, res) => {
   }
 };
 
-// Get single job by ID (owned by user)
+
+// Get single job by ID 
 export const getJobById = async (req, res) => {
   const client = await pool.connect();
   try {
     const { id } = req.params;
-    const userId = req.user?.id;
-    if (!userId) {
-      return res.status(401).json({ message: "Not authenticated" });
-    }
+    
+    // Check if ID is a valid number to prevent Postgres errors
+    if (isNaN(id)) return res.status(400).json({ message: "Invalid Job ID" });
 
     const query = `
-      SELECT 
-        id, 
-        task_type, 
-        dataset_size, 
-        deadline, 
-        budget, 
-        description, 
-        status, 
-        created_at, 
-        updated_at
-      FROM jobs
-      WHERE id = $1 AND requester_id = $2
+      SELECT j.*, u.username as requester_name 
+      FROM jobs j
+      JOIN users u ON j.requester_id = u.id
+      WHERE j.id = $1
     `;
 
-    const result = await client.query(query, [parseInt(id), userId]);
+    const result = await client.query(query, [id]);
 
     if (result.rowCount === 0) {
-      return res.status(404).json({ message: "Job not found or access denied" });
+      return res.status(404).json({ message: "Job not found" });
     }
 
     res.json(result.rows[0]);
@@ -147,3 +125,49 @@ export const getJobById = async (req, res) => {
 };
 
 
+export const getAllLabelingRequests = async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT 
+        id,
+        task_type,
+        dataset_size,
+        deadline,
+        budget,
+        description,
+        requester_id,
+        contact,
+        status,
+        created_at
+      FROM jobs
+      ORDER BY created_at DESC
+    `);
+
+    res.status(200).json(result.rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Failed to fetch labeling requests" });
+  }
+};
+// Get jobs that the current user (Labeler) is working on
+export const getMyLabelingTasks = async (req, res) => {
+  const client = await pool.connect();
+  try {
+    const userId = req.user?.id; // The Labeler's ID from the token
+
+    const query = `
+      SELECT * FROM jobs 
+      WHERE labeler_id = $1 
+      ORDER BY updated_at DESC
+    `;
+
+    const result = await client.query(query, [userId]);
+
+    res.status(200).json(result.rows);
+  } catch (error) {
+    console.error("Error fetching labeling tasks:", error);
+    res.status(500).json({ message: "Failed to fetch your tasks" });
+  } finally {
+    client.release();
+  }
+};

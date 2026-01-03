@@ -437,3 +437,4 @@ createDatasetSampleTable();
 // );
 
 
+// ALTER TABLE jobs ADD COLUMN labeler_id INTEGER REFERENCES users(id);

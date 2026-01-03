@@ -19,6 +19,7 @@ import ProfilePage from "../features/profile/page/ProfilePage.jsx";
 import DatasetPage from "../features/dataset/page/DatasetPage.jsx";
 import DatasetDetailsPage from "../features/dataset/page/DatasetDetailsPage.jsx";
 import UploadDatasetPage from "../features/seller/pages/UploadDatasetPage.jsx";
+import LabelerDashboard from "../features/labelers/pages/LabelerDashboardPage.jsx";
 
 
 
@@ -96,10 +97,13 @@ function App() {
           element={
             <ProtectedRoute allowedRoles={["seller"]}>
               <UploadDatasetPage />
-            </ProtectedRoute>
-          }
-        />
-
+            </ProtectedRoute>} />
+        <Route
+          path="/labeler/dashboard"
+          element={
+            <ProtectedRoute >
+              <LabelerDashboard />
+            </ProtectedRoute>} />
 
       </Routes>
     

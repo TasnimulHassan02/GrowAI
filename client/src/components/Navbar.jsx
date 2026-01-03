@@ -30,7 +30,10 @@ function Navbar() {
       <ul className="menu menu-horizontal text-[16px] font-medium gap-4">
         <li><a href="/subscriptions">GrowAI Pro</a></li>
         <li><a href="/datasets">Datasets</a></li>
-        <li><a href="/labelers">Data Labeling</a></li>
+         {(role.includes('labeler')) && (
+        <li><a href="/labeler/dashboard">Data Labeling</a></li>)}
+        {!(role.includes('labeler')) && (
+        <li><a href="/labelers">Data Labeling</a></li>)}
           {(role.includes('buyer')) && (role.includes('seller')) ? (
           <li><a href="/datarequest">Find Data</a></li>
         ) : role.includes('buyer') ? (

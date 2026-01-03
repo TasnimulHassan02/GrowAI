@@ -2,15 +2,18 @@ import { useState } from "react";
 import api from "../../../api/axios";
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
+import { useParams } from "react-router-dom";
 
 function RequestLabelPage() {
+  const { labelerId } = useParams();
   const [form, setForm] = useState({
     taskType: "",
     datasetSize: "",
     deadline: "",
     budget: "",
     description: "",
-    contact: ""
+    contact: "",
+    labeler_id: labelerId || null
   });
 
   const [loading, setLoading] = useState(false);
